@@ -770,7 +770,7 @@ const DEVICES = [
     tagLabel: 'Video Conf',
     vlan: 'AV_VC',
     vlans: ['AV_VC'],
-    bandwidth: { typical: 4, burst: 10, unit: 'Mbps' },
+    bandwidth: { typical: 3, burst: 6, unit: 'Mbps' },
     multicast: false,
     qos: 'DSCP EF (audio), AF41 (video)',
     ports: [
@@ -801,7 +801,7 @@ const DEVICES = [
     tagLabel: 'Video Conf',
     vlan: 'AV_VC',
     vlans: ['AV_VC'],
-    bandwidth: { typical: 4, burst: 10, unit: 'Mbps' },
+    bandwidth: { typical: 3, burst: 6, unit: 'Mbps' },
     multicast: false,
     qos: 'DSCP EF (audio), AF41 (video)',
     ports: [
@@ -832,7 +832,7 @@ const DEVICES = [
     tagLabel: 'Video Conf',
     vlan: 'AV_VC',
     vlans: ['AV_VC'],
-    bandwidth: { typical: 4, burst: 15, unit: 'Mbps' },
+    bandwidth: { typical: 3, burst: 10, unit: 'Mbps' },
     multicast: false,
     qos: 'DSCP EF (audio), AF41 (video), AF21 (sharing)',
     ports: [
@@ -862,7 +862,7 @@ const DEVICES = [
     tagLabel: 'Video Conf',
     vlan: 'AV_VC',
     vlans: ['AV_VC'],
-    bandwidth: { typical: 3, burst: 10, unit: 'Mbps' },
+    bandwidth: { typical: 2, burst: 8, unit: 'Mbps' },
     multicast: false,
     qos: 'DSCP EF (audio), AF41 (video)',
     ports: [
@@ -892,7 +892,7 @@ const DEVICES = [
     tagLabel: 'AV/Video',
     vlan: 'AV_MEDIA',
     vlans: ['AV_MEDIA', 'AV_CTRL'],
-    bandwidth: { typical: 1000, burst: 1000, unit: 'Mbps' },
+    bandwidth: { typical: 750, burst: 1000, unit: 'Mbps' },
     multicast: true,
     qos: 'DSCP AF41 recommended; requires multicast routing (PIM-SM or SSM)',
     ports: [
@@ -915,7 +915,7 @@ const DEVICES = [
     tagLabel: 'Audio DSP',
     vlan: 'AV_AUDIO',
     vlans: ['AV_AUDIO', 'AV_CTRL'],
-    bandwidth: { typical: 100, burst: 100, unit: 'Mbps' },
+    bandwidth: { typical: 10, burst: 50, unit: 'Mbps' },
     multicast: true,
     qos: 'Dante requires DSCP 46 (EF) for audio; jitter-sensitive < 1ms',
     ports: [
@@ -938,7 +938,7 @@ const DEVICES = [
     tagLabel: 'Audio DSP',
     vlan: 'AV_AUDIO',
     vlans: ['AV_AUDIO'],
-    bandwidth: { typical: 100, burst: 100, unit: 'Mbps' },
+    bandwidth: { typical: 2, burst: 5, unit: 'Mbps' },
     multicast: true,
     qos: 'DSCP EF (46) required; < 1ms latency mandatory',
     ports: [
@@ -960,7 +960,7 @@ const DEVICES = [
     tagLabel: 'AV/Video',
     vlan: 'AV_MEDIA',
     vlans: ['AV_MEDIA'],
-    bandwidth: { typical: 500, burst: 1000, unit: 'Mbps' },
+    bandwidth: { typical: 750, burst: 1000, unit: 'Mbps' },
     multicast: true,
     qos: 'AF41 for video; requires IGMP v2/v3',
     ports: [
@@ -980,7 +980,7 @@ const DEVICES = [
     tagLabel: 'Control',
     vlan: 'AV_CTRL',
     vlans: ['AV_CTRL'],
-    bandwidth: { typical: 10, burst: 50, unit: 'Mbps' },
+    bandwidth: { typical: 1, burst: 5, unit: 'Mbps' },
     multicast: false,
     qos: 'Best effort acceptable',
     ports: [
@@ -992,7 +992,7 @@ const DEVICES = [
     ],
     dns: ['Requires resolve to *.crestron.io for XiO', 'Internal resolution for other AV devices'],
     security: ['Change default SSH/admin credentials', 'Restrict management access to AV admin subnet', 'XiO requires outbound 443'],
-    notes: 'Central control processor. Must communicate to all AV VLANs. Inter-VLAN routing required for this device.',
+    notes: 'Central control processor. Gigabit NIC (100/1000 Mbps per Crestron spec) but actual traffic is minimal — short CIP command strings, XiO Cloud keepalives, SSH. Burst of ~5 Mbps only during XiO firmware/program upload. Must communicate to all AV VLANs. Inter-VLAN routing required for this device.',
   },
   {
     id: 'extron-dmp',
@@ -1024,7 +1024,7 @@ const DEVICES = [
     tagLabel: 'Audio DSP',
     vlan: 'AV_AUDIO',
     vlans: ['AV_AUDIO', 'AV_CTRL'],
-    bandwidth: { typical: 100, burst: 100, unit: 'Mbps' },
+    bandwidth: { typical: 5, burst: 10, unit: 'Mbps' },
     multicast: true,
     qos: 'DSCP EF for Dante; control traffic is best effort',
     ports: [
@@ -1597,7 +1597,7 @@ const DEVICES = [
     tagLabel: 'Audio DSP',
     vlan: 'AV_AUDIO',
     vlans: ['AV_AUDIO'],
-    bandwidth: { typical: 100, burst: 100, unit: 'Mbps' },
+    bandwidth: { typical: 2, burst: 5, unit: 'Mbps' },
     multicast: true,
     qos: 'DSCP EF; Dante/AES67 audio',
     ports: [
@@ -1618,7 +1618,7 @@ const DEVICES = [
     tagLabel: 'Audio DSP',
     vlan: 'AV_AUDIO',
     vlans: ['AV_AUDIO'],
-    bandwidth: { typical: 100, burst: 100, unit: 'Mbps' },
+    bandwidth: { typical: 2, burst: 5, unit: 'Mbps' },
     multicast: true,
     qos: 'DSCP EF for Dante audio',
     ports: [
@@ -1641,7 +1641,7 @@ const DEVICES = [
     tagLabel: 'Audio DSP',
     vlan: 'AV_AUDIO',
     vlans: ['AV_AUDIO'],
-    bandwidth: { typical: 100, burst: 100, unit: 'Mbps' },
+    bandwidth: { typical: 2, burst: 5, unit: 'Mbps' },
     multicast: true,
     qos: 'DSCP EF; Dante AoIP',
     ports: [
@@ -1663,7 +1663,7 @@ const DEVICES = [
     tagLabel: 'Audio DSP',
     vlan: 'AV_AUDIO',
     vlans: ['AV_AUDIO'],
-    bandwidth: { typical: 100, burst: 100, unit: 'Mbps' },
+    bandwidth: { typical: 2, burst: 5, unit: 'Mbps' },
     multicast: true,
     qos: 'DSCP EF; Dante AoIP',
     ports: [
@@ -1686,7 +1686,7 @@ const DEVICES = [
     tagLabel: 'Audio DSP',
     vlan: 'AV_AUDIO',
     vlans: ['AV_AUDIO'],
-    bandwidth: { typical: 100, burst: 100, unit: 'Mbps' },
+    bandwidth: { typical: 2, burst: 5, unit: 'Mbps' },
     multicast: true,
     qos: 'DSCP EF; Dante AoIP',
     ports: [
@@ -1707,7 +1707,7 @@ const DEVICES = [
     tagLabel: 'Audio DSP',
     vlan: 'AV_AUDIO',
     vlans: ['AV_AUDIO'],
-    bandwidth: { typical: 100, burst: 100, unit: 'Mbps' },
+    bandwidth: { typical: 2, burst: 5, unit: 'Mbps' },
     multicast: true,
     qos: 'DSCP EF; Dante AoIP',
     ports: [
@@ -1728,7 +1728,7 @@ const DEVICES = [
     tagLabel: 'Audio DSP',
     vlan: 'AV_AUDIO',
     vlans: ['AV_AUDIO', 'AV_VC'],
-    bandwidth: { typical: 100, burst: 100, unit: 'Mbps' },
+    bandwidth: { typical: 3, burst: 8, unit: 'Mbps' },
     multicast: true,
     qos: 'DSCP EF for Dante; USB audio to room PC is not network traffic',
     ports: [
@@ -1750,7 +1750,7 @@ const DEVICES = [
     tagLabel: 'Audio DSP',
     vlan: 'AV_AUDIO',
     vlans: ['AV_AUDIO', 'AV_VC'],
-    bandwidth: { typical: 100, burst: 100, unit: 'Mbps' },
+    bandwidth: { typical: 2, burst: 5, unit: 'Mbps' },
     multicast: true,
     qos: 'DSCP EF for Dante flows',
     ports: [
@@ -1773,7 +1773,7 @@ const DEVICES = [
     tagLabel: 'Audio DSP',
     vlan: 'AV_AUDIO',
     vlans: ['AV_AUDIO'],
-    bandwidth: { typical: 100, burst: 100, unit: 'Mbps' },
+    bandwidth: { typical: 2, burst: 5, unit: 'Mbps' },
     multicast: true,
     qos: 'DSCP EF; Dante AoIP',
     ports: [
@@ -2015,7 +2015,7 @@ const DEVICES = [
     tagLabel: 'Control',
     vlan: 'AV_CTRL',
     vlans: ['AV_CTRL'],
-    bandwidth: { typical: 2, burst: 10, unit: 'Mbps' },
+    bandwidth: { typical: 1, burst: 20, unit: 'Mbps' },
     multicast: false,
     qos: 'Best effort',
     ports: [
@@ -2037,7 +2037,7 @@ const DEVICES = [
     tagLabel: 'Control',
     vlan: 'AV_CTRL',
     vlans: ['AV_CTRL'],
-    bandwidth: { typical: 1, burst: 5, unit: 'Mbps' },
+    bandwidth: { typical: 0.1, burst: 1, unit: 'Mbps' },
     multicast: false,
     qos: 'Best effort',
     ports: [
@@ -2058,7 +2058,7 @@ const DEVICES = [
     tagLabel: 'AV/Video',
     vlan: 'AV_VC',
     vlans: ['AV_VC'],
-    bandwidth: { typical: 20, burst: 50, unit: 'Mbps' },
+    bandwidth: { typical: 10, burst: 25, unit: 'Mbps' },
     multicast: false,
     qos: 'AF41 for video sharing streams',
     ports: [
@@ -2081,7 +2081,7 @@ const DEVICES = [
     tagLabel: 'AV/Video',
     vlan: 'AV_MEDIA',
     vlans: ['AV_MEDIA', 'AV_CTRL'],
-    bandwidth: { typical: 1000, burst: 1000, unit: 'Mbps' },
+    bandwidth: { typical: 750, burst: 1000, unit: 'Mbps' },
     multicast: true,
     qos: 'AF41; IGMP v2/v3 required',
     ports: [
@@ -2103,7 +2103,7 @@ const DEVICES = [
     tagLabel: 'AV/Video',
     vlan: 'AV_MEDIA',
     vlans: ['AV_MEDIA', 'AV_AUDIO', 'AV_CTRL'],
-    bandwidth: { typical: 1000, burst: 1000, unit: 'Mbps' },
+    bandwidth: { typical: 750, burst: 1000, unit: 'Mbps' },
     multicast: true,
     qos: 'AF41 for video; DSCP EF for Dante audio',
     ports: [
@@ -2125,7 +2125,7 @@ const DEVICES = [
     tagLabel: 'Audio DSP',
     vlan: 'AV_AUDIO',
     vlans: ['AV_AUDIO'],
-    bandwidth: { typical: 100, burst: 100, unit: 'Mbps' },
+    bandwidth: { typical: 5, burst: 20, unit: 'Mbps' },
     multicast: true,
     qos: 'Proprietary Q-LAN / DM NAX protocol; treat as DSCP EF',
     ports: [
@@ -2146,7 +2146,7 @@ const DEVICES = [
     tagLabel: 'Control',
     vlan: 'AV_CTRL',
     vlans: ['AV_CTRL', 'AV_MEDIA'],
-    bandwidth: { typical: 20, burst: 100, unit: 'Mbps' },
+    bandwidth: { typical: 1, burst: 25, unit: 'Mbps' },
     multicast: false,
     qos: 'Best effort for control; AF41 for video switching',
     ports: [
@@ -2169,7 +2169,7 @@ const DEVICES = [
     tagLabel: 'Control',
     vlan: 'AV_CTRL',
     vlans: ['AV_CTRL'],
-    bandwidth: { typical: 10, burst: 50, unit: 'Mbps' },
+    bandwidth: { typical: 1, burst: 5, unit: 'Mbps' },
     multicast: false,
     qos: 'Best effort',
     ports: [
@@ -2181,7 +2181,7 @@ const DEVICES = [
     ],
     dns: ['Internal + *.crestron.io'],
     security: ['4-Series control processor — succeeds CP3/CP4 in current deployments', 'Built for Crestron Flex UC systems as embedded compute', 'Change default credentials; restrict SSH to management VLAN'],
-    notes: 'Compact 4-Series control processor. Used as standalone room controller or embedded in Crestron Flex kits. RMC4-C is the Crestron Flex compute version for Teams/Zoom Rooms. Managed via XiO Cloud.',
+    notes: 'Compact 4-Series control processor. IMPORTANT: RMC4 has a 100 Mbps (Fast Ethernet) NIC only — not gigabit (per Crestron spec at av-iq.com/avcat). Actual traffic is minimal: CIP commands, XiO keepalives. Burst ~5 Mbps only during firmware/program upload. RMC4-C is the Crestron Flex compute version for Teams/Zoom Rooms. PoE powered. Managed via XiO Cloud.',
   },
   {
     id: 'crestron-xio-cloud',
@@ -2192,7 +2192,7 @@ const DEVICES = [
     tagLabel: 'Control',
     vlan: 'AV_CTRL',
     vlans: ['AV_CTRL'],
-    bandwidth: { typical: 1, burst: 5, unit: 'Mbps' },
+    bandwidth: { typical: 0.1, burst: 2, unit: 'Mbps' },
     multicast: false,
     qos: 'Best effort; management traffic only',
     ports: [
@@ -2214,7 +2214,7 @@ const DEVICES = [
     tagLabel: 'Control',
     vlan: 'AV_CTRL',
     vlans: ['AV_CTRL'],
-    bandwidth: { typical: 10, burst: 50, unit: 'Mbps' },
+    bandwidth: { typical: 1, burst: 5, unit: 'Mbps' },
     multicast: false,
     qos: 'Best effort',
     ports: [
@@ -2236,7 +2236,7 @@ const DEVICES = [
     tagLabel: 'Control',
     vlan: 'AV_CTRL',
     vlans: ['AV_CTRL'],
-    bandwidth: { typical: 2, burst: 10, unit: 'Mbps' },
+    bandwidth: { typical: 1, burst: 5, unit: 'Mbps' },
     multicast: false,
     qos: 'Best effort',
     ports: [
@@ -2256,7 +2256,7 @@ const DEVICES = [
     tagLabel: 'AV/Video',
     vlan: 'AV_VC',
     vlans: ['AV_VC'],
-    bandwidth: { typical: 20, burst: 50, unit: 'Mbps' },
+    bandwidth: { typical: 10, burst: 25, unit: 'Mbps' },
     multicast: false,
     qos: 'AF41 for wireless sharing streams',
     ports: [
@@ -2279,7 +2279,7 @@ const DEVICES = [
     tagLabel: 'Control',
     vlan: 'AV_CTRL',
     vlans: ['AV_CTRL', 'AV_MEDIA', 'AV_AUDIO'],
-    bandwidth: { typical: 50, burst: 200, unit: 'Mbps' },
+    bandwidth: { typical: 2, burst: 25, unit: 'Mbps' },
     multicast: false,
     qos: 'AF41 for video; DSCP EF for Dante (on Dante-equipped models)',
     ports: [
@@ -2303,7 +2303,7 @@ const DEVICES = [
     tagLabel: 'AV/Video',
     vlan: 'AV_MEDIA',
     vlans: ['AV_MEDIA', 'AV_CTRL'],
-    bandwidth: { typical: 100, burst: 1000, unit: 'Mbps' },
+    bandwidth: { typical: 2, burst: 10, unit: 'Mbps' },
     multicast: false,
     qos: 'AF41 for video distribution',
     ports: [
@@ -2324,7 +2324,7 @@ const DEVICES = [
     tagLabel: 'AV/Video',
     vlan: 'AV_MEDIA',
     vlans: ['AV_MEDIA', 'AV_CTRL'],
-    bandwidth: { typical: 1000, burst: 1000, unit: 'Mbps' },
+    bandwidth: { typical: 500, burst: 1000, unit: 'Mbps' },
     multicast: true,
     qos: 'AF41 for video; IGMP snooping required',
     ports: [
@@ -2346,7 +2346,7 @@ const DEVICES = [
     tagLabel: 'AV/Video',
     vlan: 'AV_MEDIA',
     vlans: ['AV_MEDIA'],
-    bandwidth: { typical: 15, burst: 40, unit: 'Mbps' },
+    bandwidth: { typical: 8, burst: 20, unit: 'Mbps' },
     multicast: true,
     qos: 'AF41 for streaming video',
     ports: [
@@ -2368,7 +2368,7 @@ const DEVICES = [
     tagLabel: 'AV/Video',
     vlan: 'AV_MEDIA',
     vlans: ['AV_MEDIA', 'AV_CTRL'],
-    bandwidth: { typical: 100, burst: 1000, unit: 'Mbps' },
+    bandwidth: { typical: 20, burst: 100, unit: 'Mbps' },
     multicast: false,
     qos: 'AF41 for video inputs',
     ports: [
@@ -2391,7 +2391,7 @@ const DEVICES = [
     tagLabel: 'Audio DSP',
     vlan: 'AV_AUDIO',
     vlans: ['AV_AUDIO', 'AV_CTRL'],
-    bandwidth: { typical: 100, burst: 100, unit: 'Mbps' },
+    bandwidth: { typical: 10, burst: 50, unit: 'Mbps' },
     multicast: true,
     qos: 'DSCP 46 (EF) for Q-LAN audio; control traffic best effort',
     ports: [
@@ -2415,7 +2415,7 @@ const DEVICES = [
     tagLabel: 'Audio DSP',
     vlan: 'AV_AUDIO',
     vlans: ['AV_AUDIO', 'AV_CTRL'],
-    bandwidth: { typical: 100, burst: 100, unit: 'Mbps' },
+    bandwidth: { typical: 20, burst: 100, unit: 'Mbps' },
     multicast: true,
     qos: 'DSCP EF for Q-LAN; AES67 also supported',
     ports: [
@@ -2439,7 +2439,7 @@ const DEVICES = [
     tagLabel: 'Audio DSP',
     vlan: 'AV_AUDIO',
     vlans: ['AV_AUDIO'],
-    bandwidth: { typical: 100, burst: 100, unit: 'Mbps' },
+    bandwidth: { typical: 5, burst: 20, unit: 'Mbps' },
     multicast: true,
     qos: 'DSCP EF for Q-LAN',
     ports: [
@@ -2459,7 +2459,7 @@ const DEVICES = [
     tagLabel: 'Audio DSP',
     vlan: 'AV_AUDIO',
     vlans: ['AV_AUDIO'],
-    bandwidth: { typical: 100, burst: 100, unit: 'Mbps' },
+    bandwidth: { typical: 3, burst: 10, unit: 'Mbps' },
     multicast: true,
     qos: 'DSCP EF for Q-LAN audio',
     ports: [
@@ -2480,7 +2480,7 @@ const DEVICES = [
     tagLabel: 'Control',
     vlan: 'AV_CTRL',
     vlans: ['AV_CTRL', 'AV_AUDIO'],
-    bandwidth: { typical: 2, burst: 10, unit: 'Mbps' },
+    bandwidth: { typical: 0.5, burst: 2, unit: 'Mbps' },
     multicast: false,
     qos: 'Best effort',
     ports: [
@@ -2500,7 +2500,7 @@ const DEVICES = [
     tagLabel: 'AV/Video',
     vlan: 'AV_MEDIA',
     vlans: ['AV_MEDIA', 'AV_AUDIO'],
-    bandwidth: { typical: 500, burst: 1000, unit: 'Mbps' },
+    bandwidth: { typical: 300, burst: 600, unit: 'Mbps' },
     multicast: true,
     qos: 'AF41 for video; all traffic within Q-LAN domain',
     ports: [
@@ -2521,7 +2521,7 @@ const DEVICES = [
     tagLabel: 'AV/Video',
     vlan: 'AV_MEDIA',
     vlans: ['AV_MEDIA', 'AV_CTRL'],
-    bandwidth: { typical: 10, burst: 30, unit: 'Mbps' },
+    bandwidth: { typical: 8, burst: 20, unit: 'Mbps' },
     multicast: false,
     qos: 'AF41 for video',
     ports: [
@@ -2542,7 +2542,7 @@ const DEVICES = [
     tagLabel: 'Audio DSP',
     vlan: 'AV_AUDIO',
     vlans: ['AV_AUDIO'],
-    bandwidth: { typical: 100, burst: 100, unit: 'Mbps' },
+    bandwidth: { typical: 2, burst: 5, unit: 'Mbps' },
     multicast: true,
     qos: 'DSCP EF; Q-LAN audio',
     ports: [
@@ -2562,7 +2562,7 @@ const DEVICES = [
     tagLabel: 'Audio DSP',
     vlan: 'AV_AUDIO',
     vlans: ['AV_AUDIO'],
-    bandwidth: { typical: 100, burst: 100, unit: 'Mbps' },
+    bandwidth: { typical: 1, burst: 3, unit: 'Mbps' },
     multicast: true,
     qos: 'DSCP EF for Q-LAN audio',
     ports: [
@@ -2582,7 +2582,7 @@ const DEVICES = [
     tagLabel: 'Control',
     vlan: 'AV_CTRL',
     vlans: ['AV_CTRL'],
-    bandwidth: { typical: 1, burst: 5, unit: 'Mbps' },
+    bandwidth: { typical: 0.1, burst: 2, unit: 'Mbps' },
     multicast: false,
     qos: 'Best effort; management traffic only',
     ports: [
@@ -2604,7 +2604,7 @@ const DEVICES = [
     tagLabel: 'Audio DSP',
     vlan: 'AV_AUDIO',
     vlans: ['AV_AUDIO', 'AV_CTRL'],
-    bandwidth: { typical: 100, burst: 100, unit: 'Mbps' },
+    bandwidth: { typical: 15, burst: 50, unit: 'Mbps' },
     multicast: true,
     qos: 'DSCP EF for Q-LAN and Dante; AES67 supported natively',
     ports: [
@@ -2637,7 +2637,7 @@ const DEVICES = [
     tagLabel: 'Audio DSP',
     vlan: 'AV_AUDIO',
     vlans: ['AV_AUDIO'],
-    bandwidth: { typical: 100, burst: 100, unit: 'Mbps' },
+    bandwidth: { typical: 1, burst: 3, unit: 'Mbps' },
     multicast: true,
     qos: 'DSCP EF; Dante AoIP with AES67 support',
     ports: [
@@ -2668,7 +2668,7 @@ const DEVICES = [
     tagLabel: 'Audio DSP',
     vlan: 'AV_AUDIO',
     vlans: ['AV_AUDIO'],
-    bandwidth: { typical: 100, burst: 100, unit: 'Mbps' },
+    bandwidth: { typical: 1, burst: 3, unit: 'Mbps' },
     multicast: true,
     qos: 'DSCP EF; Dante / AES67 audio',
     ports: [
@@ -2696,7 +2696,7 @@ const DEVICES = [
     tagLabel: 'Audio DSP',
     vlan: 'AV_AUDIO',
     vlans: ['AV_AUDIO'],
-    bandwidth: { typical: 100, burst: 100, unit: 'Mbps' },
+    bandwidth: { typical: 2, burst: 5, unit: 'Mbps' },
     multicast: true,
     qos: 'DSCP EF; Dante / AES67',
     ports: [
@@ -2726,7 +2726,7 @@ const DEVICES = [
     tagLabel: 'Audio DSP',
     vlan: 'AV_AUDIO',
     vlans: ['AV_AUDIO'],
-    bandwidth: { typical: 100, burst: 100, unit: 'Mbps' },
+    bandwidth: { typical: 1, burst: 3, unit: 'Mbps' },
     multicast: true,
     qos: 'DSCP EF; Dante / AES67',
     ports: [
@@ -2753,7 +2753,7 @@ const DEVICES = [
     tagLabel: 'Audio DSP',
     vlan: 'AV_AUDIO',
     vlans: ['AV_AUDIO'],
-    bandwidth: { typical: 100, burst: 100, unit: 'Mbps' },
+    bandwidth: { typical: 1, burst: 3, unit: 'Mbps' },
     multicast: true,
     qos: 'DSCP EF; Dante / AES67',
     ports: [
