@@ -200,6 +200,19 @@
     border: 1px solid var(--border);
     color: var(--text3);
   }
+  .poe-badge {
+    font-size: 10px;
+    font-family: 'IBM Plex Mono', monospace;
+    padding: 2px 7px;
+    border-radius: 3px;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  .poe-af   { background: rgba(63,185,80,0.15);  color: #3fb950; border: 1px solid rgba(63,185,80,0.35); }
+  .poe-at   { background: rgba(88,166,255,0.15); color: #58a6ff; border: 1px solid rgba(88,166,255,0.35); }
+  .poe-bt   { background: rgba(188,140,255,0.15);color: #bc8cff; border: 1px solid rgba(188,140,255,0.35); }
+  .poe-ac   { background: rgba(110,118,129,0.15);color: #8b949e; border: 1px solid rgba(110,118,129,0.3); }
+  .poe-none { display: none; }
 
   .add-btn {
     position: absolute;
@@ -771,6 +784,7 @@ const DEVICES = [
     vlan: 'AV_VC',
     vlans: ['AV_VC'],
     bandwidth: { typical: 3, burst: 6, unit: 'Mbps' },
+    poe: { standard: 'AC', watts: null, notes: 'AC powered compute. Touch controller may be PoE separately.' },
     multicast: false,
     qos: 'DSCP EF (audio), AF41 (video)',
     ports: [
@@ -802,6 +816,7 @@ const DEVICES = [
     vlan: 'AV_VC',
     vlans: ['AV_VC'],
     bandwidth: { typical: 3, burst: 6, unit: 'Mbps' },
+    poe: { standard: 'AC', watts: null, notes: 'Most Android bars are AC powered. Controllers (Tap IP, Neat Pad) are PoE — see individual entries.' },
     multicast: false,
     qos: 'DSCP EF (audio), AF41 (video)',
     ports: [
@@ -833,6 +848,7 @@ const DEVICES = [
     vlan: 'AV_VC',
     vlans: ['AV_VC'],
     bandwidth: { typical: 3, burst: 10, unit: 'Mbps' },
+    poe: { standard: 'AC', watts: null, notes: 'Windows compute is AC powered. Touch console is a separate PoE device.' },
     multicast: false,
     qos: 'DSCP EF (audio), AF41 (video), AF21 (sharing)',
     ports: [
@@ -863,6 +879,7 @@ const DEVICES = [
     vlan: 'AV_VC',
     vlans: ['AV_VC'],
     bandwidth: { typical: 2, burst: 8, unit: 'Mbps' },
+    poe: { standard: 'AC', watts: null, notes: 'Android bars are AC powered. Controllers are PoE — see individual entries.' },
     multicast: false,
     qos: 'DSCP EF (audio), AF41 (video)',
     ports: [
@@ -893,6 +910,7 @@ const DEVICES = [
     vlan: 'AV_MEDIA',
     vlans: ['AV_MEDIA', 'AV_CTRL'],
     bandwidth: { typical: 750, burst: 1000, unit: 'Mbps' },
+    poe: { standard: 'AC', watts: null, notes: 'AC powered. Requires dedicated 1Gbps switch port.' },
     multicast: true,
     qos: 'DSCP AF41 recommended; requires multicast routing (PIM-SM or SSM)',
     ports: [
@@ -916,6 +934,7 @@ const DEVICES = [
     vlan: 'AV_AUDIO',
     vlans: ['AV_AUDIO', 'AV_CTRL'],
     bandwidth: { typical: 10, burst: 50, unit: 'Mbps' },
+    poe: { standard: 'AC', watts: null, notes: 'Rack-mounted AC powered Q-SYS Core.' },
     multicast: true,
     qos: 'Dante requires DSCP 46 (EF) for audio; jitter-sensitive < 1ms',
     ports: [
@@ -939,6 +958,7 @@ const DEVICES = [
     vlan: 'AV_AUDIO',
     vlans: ['AV_AUDIO'],
     bandwidth: { typical: 2, burst: 5, unit: 'Mbps' },
+    poe: { standard: 'PoE', watts: 12.95, notes: '802.3af PoE typical for generic Dante endpoints. Actual watts vary; 12.95W is 802.3af max at device.' },
     multicast: true,
     qos: 'DSCP EF (46) required; < 1ms latency mandatory',
     ports: [
@@ -961,6 +981,7 @@ const DEVICES = [
     vlan: 'AV_MEDIA',
     vlans: ['AV_MEDIA'],
     bandwidth: { typical: 750, burst: 1000, unit: 'Mbps' },
+    poe: { standard: 'AC', watts: null, notes: 'AC powered wall/rack unit.' },
     multicast: true,
     qos: 'AF41 for video; requires IGMP v2/v3',
     ports: [
@@ -981,6 +1002,7 @@ const DEVICES = [
     vlan: 'AV_CTRL',
     vlans: ['AV_CTRL'],
     bandwidth: { typical: 1, burst: 5, unit: 'Mbps' },
+    poe: { standard: 'AC', watts: null, notes: 'Rack-mounted AC powered control processor. Source: Crestron CP4 spec sheet.' },
     multicast: false,
     qos: 'Best effort acceptable',
     ports: [
@@ -1004,6 +1026,7 @@ const DEVICES = [
     vlan: 'AV_AUDIO',
     vlans: ['AV_AUDIO', 'AV_CTRL'],
     bandwidth: { typical: 10, burst: 10, unit: 'Mbps' },
+    poe: { standard: 'AC', watts: null, notes: 'Rack-mounted AC powered DSP.' },
     multicast: false,
     qos: 'Best effort; not latency-critical over IP',
     ports: [
@@ -1025,6 +1048,7 @@ const DEVICES = [
     vlan: 'AV_AUDIO',
     vlans: ['AV_AUDIO', 'AV_CTRL'],
     bandwidth: { typical: 5, burst: 10, unit: 'Mbps' },
+    poe: { standard: 'AC', watts: null, notes: 'Rack-mounted AC powered DSP server. Source: Biamp Tesira product documentation.' },
     multicast: true,
     qos: 'DSCP EF for Dante; control traffic is best effort',
     ports: [
@@ -1047,6 +1071,7 @@ const DEVICES = [
     vlan: 'AV_DISPLAY',
     vlans: ['AV_DISPLAY'],
     bandwidth: { typical: 5, burst: 25, unit: 'Mbps' },
+    poe: { standard: 'AC', watts: null, notes: 'Commercial display — AC powered.' },
     multicast: false,
     qos: 'Best effort',
     ports: [
@@ -1069,6 +1094,7 @@ const DEVICES = [
     vlan: 'AV_DISPLAY',
     vlans: ['AV_DISPLAY'],
     bandwidth: { typical: 2, burst: 10, unit: 'Mbps' },
+    poe: { standard: 'AC', watts: null, notes: 'Commercial display — AC powered.' },
     multicast: false,
     qos: 'Best effort',
     ports: [
@@ -1090,6 +1116,7 @@ const DEVICES = [
     vlan: 'AV_VC',
     vlans: ['AV_VC'],
     bandwidth: { typical: 20, burst: 50, unit: 'Mbps' },
+    poe: { standard: 'AC', watts: null, notes: 'AC powered. Source: Barco ClickShare product specs.' },
     multicast: false,
     qos: 'AF41 for video sharing',
     ports: [
@@ -1112,6 +1139,7 @@ const DEVICES = [
     vlan: 'AV_MEDIA',
     vlans: ['AV_MEDIA'],
     bandwidth: { typical: 15, burst: 50, unit: 'Mbps' },
+    poe: { standard: 'AC', watts: null, notes: 'Rack-mounted AC powered encoder.' },
     multicast: true,
     qos: 'AF41 for video',
     ports: [
@@ -1137,6 +1165,7 @@ const DEVICES = [
     vlan: 'AV_VC',
     vlans: ['AV_VC'],
     bandwidth: { typical: 4, burst: 10, unit: 'Mbps' },
+    poe: { standard: 'AC', watts: null, notes: 'AC powered (power brick). Neat Pad controller is PoE. Source: neat.no/bar.' },
     multicast: false,
     qos: 'DSCP EF (audio), AF41 (video)',
     ports: [
@@ -1160,6 +1189,7 @@ const DEVICES = [
     vlan: 'AV_VC',
     vlans: ['AV_VC'],
     bandwidth: { typical: 6, burst: 15, unit: 'Mbps' },
+    poe: { standard: 'AC', watts: null, notes: 'AC powered. Neat Pad controller is PoE (802.3af, 5.6W). Source: neat.no/bar-pro.' },
     multicast: false,
     qos: 'DSCP EF (audio), AF41 (video)',
     ports: [
@@ -1182,6 +1212,7 @@ const DEVICES = [
     vlan: 'AV_VC',
     vlans: ['AV_VC'],
     bandwidth: { typical: 5, burst: 12, unit: 'Mbps' },
+    poe: { standard: 'AC', watts: null, notes: 'AC powered. Source: neat.no/bar-2.' },
     multicast: false,
     qos: 'DSCP EF (audio), AF41 (video)',
     ports: [
@@ -1204,6 +1235,7 @@ const DEVICES = [
     vlan: 'AV_VC',
     vlans: ['AV_VC'],
     bandwidth: { typical: 5, burst: 12, unit: 'Mbps' },
+    poe: { standard: 'AC', watts: null, notes: 'AC powered in typical deployments. Source: Neat Board product documentation.' },
     multicast: false,
     qos: 'DSCP EF (audio), AF41 (video)',
     ports: [
@@ -1226,6 +1258,7 @@ const DEVICES = [
     vlan: 'AV_VC',
     vlans: ['AV_VC'],
     bandwidth: { typical: 3, burst: 8, unit: 'Mbps' },
+    poe: { standard: 'PoE+', watts: 25.5, notes: 'Neat Frame is PoE+ powered. Source: Neat Frame product specifications (neat.no).' },
     multicast: false,
     qos: 'DSCP EF (audio), AF41 (video)',
     ports: [
@@ -1247,6 +1280,7 @@ const DEVICES = [
     vlan: 'AV_CTRL',
     vlans: ['AV_CTRL', 'AV_VC'],
     bandwidth: { typical: 1, burst: 5, unit: 'Mbps' },
+    poe: { standard: 'PoE', watts: 5.6, notes: '802.3af PoE, Class 0/Mode A, 5.6W in-call. Source: support.neat.no — "Neat Pad: Power over Ethernet requirements" and neat.no/pad spec sheet.' },
     multicast: false,
     qos: 'Best effort',
     ports: [
@@ -1269,6 +1303,7 @@ const DEVICES = [
     vlan: 'AV_VC',
     vlans: ['AV_VC'],
     bandwidth: { typical: 4, burst: 10, unit: 'Mbps' },
+    poe: { standard: 'AC', watts: null, notes: 'Rally Bar is AC powered (65W brick). Tap IP controller is PoE (802.3af, <15W). Source: Logitech Rally Bar datasheet.' },
     multicast: false,
     qos: 'DSCP EF (audio), AF41 (video)',
     ports: [
@@ -1291,6 +1326,7 @@ const DEVICES = [
     vlan: 'AV_VC',
     vlans: ['AV_VC'],
     bandwidth: { typical: 4, burst: 10, unit: 'Mbps' },
+    poe: { standard: 'AC', watts: null, notes: 'Rally Hub and camera system are AC powered.' },
     multicast: false,
     qos: 'DSCP EF (audio), AF41 (video)',
     ports: [
@@ -1312,6 +1348,7 @@ const DEVICES = [
     vlan: 'AV_VC',
     vlans: ['AV_VC'],
     bandwidth: { typical: 3, burst: 8, unit: 'Mbps' },
+    poe: { standard: 'AC', watts: null, notes: 'MeetUp is AC powered or USB bus powered.' },
     multicast: false,
     qos: 'Best effort; DSCP AF41 recommended',
     ports: [
@@ -1332,6 +1369,7 @@ const DEVICES = [
     vlan: 'AV_CTRL',
     vlans: ['AV_CTRL', 'AV_VC'],
     bandwidth: { typical: 1, burst: 5, unit: 'Mbps' },
+    poe: { standard: 'PoE', watts: 12.95, notes: '802.3af PoE, Class 3, <15W at port. Source: Logitech Sync Hub — "Common questions about Tap IP and Tap Scheduler PoE setup" (hub.sync.logitech.com).' },
     multicast: false,
     qos: 'Best effort',
     ports: [
@@ -1352,6 +1390,7 @@ const DEVICES = [
     vlan: 'AV_VC',
     vlans: ['AV_VC'],
     bandwidth: { typical: 2, burst: 5, unit: 'Mbps' },
+    poe: { standard: 'AC', watts: null, notes: 'USB-C or AC powered by connected laptop.' },
     multicast: false,
     qos: 'Best effort',
     ports: [
@@ -1373,6 +1412,7 @@ const DEVICES = [
     vlan: 'AV_VC',
     vlans: ['AV_VC'],
     bandwidth: { typical: 6, burst: 20, unit: 'Mbps' },
+    poe: { standard: 'AC', watts: null, notes: 'Room Kit codec is AC powered.' },
     multicast: false,
     qos: 'DSCP EF (46) audio, CS4 video — Cisco marks automatically if trusted',
     ports: [
@@ -1397,6 +1437,7 @@ const DEVICES = [
     vlan: 'AV_VC',
     vlans: ['AV_VC'],
     bandwidth: { typical: 6, burst: 20, unit: 'Mbps' },
+    poe: { standard: 'AC', watts: null, notes: 'Cisco Board is AC powered (integrated display + compute).' },
     multicast: false,
     qos: 'DSCP EF/CS4 auto-marked by RoomOS',
     ports: [
@@ -1419,6 +1460,7 @@ const DEVICES = [
     vlan: 'AV_VC',
     vlans: ['AV_VC', 'AV_CTRL'],
     bandwidth: { typical: 10, burst: 30, unit: 'Mbps' },
+    poe: { standard: 'AC', watts: null, notes: 'Codec Plus/Pro are rack-mounted AC devices.' },
     multicast: false,
     qos: 'DSCP EF/CS4; Cisco auto-marks if DSCP trust configured on switch',
     ports: [
@@ -1443,6 +1485,7 @@ const DEVICES = [
     vlan: 'AV_VC',
     vlans: ['AV_VC'],
     bandwidth: { typical: 3, burst: 8, unit: 'Mbps' },
+    poe: { standard: 'PoE+', watts: 25.5, notes: 'Cisco Desk series supports PoE+ for power. Source: Cisco Desk product data sheets (cisco.com).' },
     multicast: false,
     qos: 'DSCP EF/CS4',
     ports: [
@@ -1466,6 +1509,7 @@ const DEVICES = [
     vlan: 'AV_VC',
     vlans: ['AV_VC'],
     bandwidth: { typical: 4, burst: 10, unit: 'Mbps' },
+    poe: { standard: 'AC', watts: null, notes: 'Studio X30/X50/X70 are AC powered. Source: Poly Studio X spec sheets.' },
     multicast: false,
     qos: 'DSCP EF (audio), AF41 (video)',
     ports: [
@@ -1489,6 +1533,7 @@ const DEVICES = [
     vlan: 'AV_VC',
     vlans: ['AV_VC', 'AV_CTRL'],
     bandwidth: { typical: 6, burst: 20, unit: 'Mbps' },
+    poe: { standard: 'AC', watts: null, notes: 'G7500 codec is AC powered rack unit.' },
     multicast: false,
     qos: 'DSCP EF/AF41; mark at switch port',
     ports: [
@@ -1513,6 +1558,7 @@ const DEVICES = [
     vlan: 'AV_VC',
     vlans: ['AV_VC'],
     bandwidth: { typical: 2, burst: 5, unit: 'Mbps' },
+    poe: { standard: 'AC', watts: null, notes: 'Studio E70 is USB-C powered by G7500 codec.' },
     multicast: false,
     qos: 'Best effort (USB peripheral in most deployments)',
     ports: [
@@ -1532,6 +1578,7 @@ const DEVICES = [
     vlan: 'AV_VC',
     vlans: ['AV_VC'],
     bandwidth: { typical: 1, burst: 2, unit: 'Mbps' },
+    poe: { standard: 'PoE', watts: 12.95, notes: 'Poly Trio conference phones: 802.3af PoE powered. Source: Poly Trio product specifications.' },
     multicast: false,
     qos: 'DSCP EF for voice',
     ports: [
@@ -1553,6 +1600,7 @@ const DEVICES = [
     vlan: 'AV_VC',
     vlans: ['AV_VC'],
     bandwidth: { typical: 4, burst: 10, unit: 'Mbps' },
+    poe: { standard: 'AC', watts: null, notes: 'G62 system is AC powered. TC10 controller is PoE+.' },
     multicast: false,
     qos: 'DSCP EF (audio), AF41 (video)',
     ports: [
@@ -1577,6 +1625,7 @@ const DEVICES = [
     vlan: 'AV_AUDIO',
     vlans: ['AV_AUDIO', 'AV_VC'],
     bandwidth: { typical: 10, burst: 20, unit: 'Mbps' },
+    poe: { standard: 'PoE+', watts: 25.5, notes: 'Biamp Devio SCR is PoE+ powered. Source: Biamp Devio product documentation (biamp.com).' },
     multicast: false,
     qos: 'Best effort; low latency USB audio bridge',
     ports: [
@@ -1598,6 +1647,7 @@ const DEVICES = [
     vlan: 'AV_AUDIO',
     vlans: ['AV_AUDIO'],
     bandwidth: { typical: 2, burst: 5, unit: 'Mbps' },
+    poe: { standard: 'PoE+', watts: 25.5, notes: 'PoE+ (802.3at) required. Source: Biamp Parlé spec sheet (biamp.com).' },
     multicast: true,
     qos: 'DSCP EF; Dante/AES67 audio',
     ports: [
@@ -1619,6 +1669,7 @@ const DEVICES = [
     vlan: 'AV_AUDIO',
     vlans: ['AV_AUDIO'],
     bandwidth: { typical: 2, burst: 5, unit: 'Mbps' },
+    poe: { standard: 'PoE+', watts: 25.5, notes: 'PoE+ on select models; larger amplifiers require AC. Source: Biamp Voltera documentation.' },
     multicast: true,
     qos: 'DSCP EF for Dante audio',
     ports: [
@@ -1642,6 +1693,7 @@ const DEVICES = [
     vlan: 'AV_AUDIO',
     vlans: ['AV_AUDIO'],
     bandwidth: { typical: 2, burst: 5, unit: 'Mbps' },
+    poe: { standard: 'PoE', watts: 12.95, notes: '802.3af PoE, Class 0/3. Source: shure.com/en-GB MXA910 page — "standard PoE (class 0/3) and Control carried on single Ethernet cable".' },
     multicast: true,
     qos: 'DSCP EF; Dante AoIP',
     ports: [
@@ -1664,6 +1716,7 @@ const DEVICES = [
     vlan: 'AV_AUDIO',
     vlans: ['AV_AUDIO'],
     bandwidth: { typical: 2, burst: 5, unit: 'Mbps' },
+    poe: { standard: 'PoE+', watts: 25.5, notes: 'PoE+ (802.3at) required. Source: Shure MXA920 spec sheet (shure.com).' },
     multicast: true,
     qos: 'DSCP EF; Dante AoIP',
     ports: [
@@ -1687,6 +1740,7 @@ const DEVICES = [
     vlan: 'AV_AUDIO',
     vlans: ['AV_AUDIO'],
     bandwidth: { typical: 2, burst: 5, unit: 'Mbps' },
+    poe: { standard: 'PoE+', watts: 25.5, notes: 'PoE+ (802.3at) required. Source: Shure MXA710 product documentation (shure.com).' },
     multicast: true,
     qos: 'DSCP EF; Dante AoIP',
     ports: [
@@ -1708,6 +1762,7 @@ const DEVICES = [
     vlan: 'AV_AUDIO',
     vlans: ['AV_AUDIO'],
     bandwidth: { typical: 2, burst: 5, unit: 'Mbps' },
+    poe: { standard: 'PoE', watts: 12.95, notes: '802.3af PoE powered. Source: Shure MXA310 spec sheet (shure.com).' },
     multicast: true,
     qos: 'DSCP EF; Dante AoIP',
     ports: [
@@ -1729,6 +1784,7 @@ const DEVICES = [
     vlan: 'AV_AUDIO',
     vlans: ['AV_AUDIO', 'AV_VC'],
     bandwidth: { typical: 3, burst: 8, unit: 'Mbps' },
+    poe: { standard: 'PoE', watts: 12.95, notes: '802.3af PoE powered. Source: Shure IntelliMix P300 spec sheet (shure.com).' },
     multicast: true,
     qos: 'DSCP EF for Dante; USB audio to room PC is not network traffic',
     ports: [
@@ -1751,6 +1807,7 @@ const DEVICES = [
     vlan: 'AV_AUDIO',
     vlans: ['AV_AUDIO', 'AV_VC'],
     bandwidth: { typical: 2, burst: 5, unit: 'Mbps' },
+    poe: { standard: 'PoE', watts: 12.95, notes: '802.3af PoE powered. Source: Shure ANIUSB-MATRIX product documentation (shure.com).' },
     multicast: true,
     qos: 'DSCP EF for Dante flows',
     ports: [
@@ -1774,6 +1831,7 @@ const DEVICES = [
     vlan: 'AV_AUDIO',
     vlans: ['AV_AUDIO'],
     bandwidth: { typical: 2, burst: 5, unit: 'Mbps' },
+    poe: { standard: 'PoE+', watts: 30, notes: 'PoE+ (802.3at), up to 30W. Source: Sennheiser TCC2 product specifications (sennheiser.com).' },
     multicast: true,
     qos: 'DSCP EF; Dante AoIP',
     ports: [
@@ -1797,6 +1855,7 @@ const DEVICES = [
     vlan: 'AV_VC',
     vlans: ['AV_VC'],
     bandwidth: { typical: 3, burst: 8, unit: 'Mbps' },
+    poe: { standard: 'AC', watts: null, notes: 'TeamConnect Bar is AC powered in USB mode. TC Bar M (standalone MTR) has AC power.' },
     multicast: false,
     qos: 'Best effort; USB audio peripheral',
     ports: [
@@ -1816,6 +1875,7 @@ const DEVICES = [
     vlan: 'AV_AUDIO',
     vlans: ['AV_AUDIO', 'AV_VC'],
     bandwidth: { typical: 10, burst: 20, unit: 'Mbps' },
+    poe: { standard: 'PoE', watts: 12.95, notes: '802.3af PoE powered. Source: Sennheiser TCIS product documentation (sennheiser.com).' },
     multicast: false,
     qos: 'Best effort',
     ports: [
@@ -1836,6 +1896,7 @@ const DEVICES = [
     vlan: 'AV_AUDIO',
     vlans: ['AV_AUDIO'],
     bandwidth: { typical: 5, burst: 10, unit: 'Mbps' },
+    poe: { standard: 'AC', watts: null, notes: 'EW-DX receiver is AC powered rack unit. Network port is management only.' },
     multicast: false,
     qos: 'Best effort',
     ports: [
@@ -1858,6 +1919,7 @@ const DEVICES = [
     vlan: 'AV_MEDIA',
     vlans: ['AV_MEDIA', 'AV_CTRL'],
     bandwidth: { typical: 15, burst: 50, unit: 'Mbps' },
+    poe: { standard: 'AC', watts: null, notes: 'Sony BRC PTZ cameras are AC powered (12V DC adapter). No PoE.' },
     multicast: false,
     qos: 'AF41 for video streams',
     ports: [
@@ -1881,6 +1943,7 @@ const DEVICES = [
     vlan: 'AV_MEDIA',
     vlans: ['AV_MEDIA', 'AV_CTRL'],
     bandwidth: { typical: 10, burst: 30, unit: 'Mbps' },
+    poe: { standard: 'PoE+', watts: 25.5, notes: 'Sony SRG series: PoE+ available on models such as SRG-X120P. Check specific model. Source: Sony SRG-X series spec sheets.' },
     multicast: false,
     qos: 'AF41 for video',
     ports: [
@@ -1902,6 +1965,7 @@ const DEVICES = [
     vlan: 'AV_DISPLAY',
     vlans: ['AV_DISPLAY'],
     bandwidth: { typical: 5, burst: 20, unit: 'Mbps' },
+    poe: { standard: 'AC', watts: null, notes: 'Sony BRAVIA commercial displays are AC powered.' },
     multicast: false,
     qos: 'Best effort',
     ports: [
@@ -1926,6 +1990,7 @@ const DEVICES = [
     vlan: 'AV_MEDIA',
     vlans: ['AV_MEDIA', 'AV_CTRL'],
     bandwidth: { typical: 10, burst: 30, unit: 'Mbps' },
+    poe: { standard: 'PoE+', watts: 25.5, notes: 'PoE+ (802.3at) on most models (CAM520 Pro2, CAM540, etc.). Source: AVer CAM product data sheets (aver.com).' },
     multicast: false,
     qos: 'AF41 for video',
     ports: [
@@ -1948,6 +2013,7 @@ const DEVICES = [
     vlan: 'AV_VC',
     vlans: ['AV_VC'],
     bandwidth: { typical: 3, burst: 8, unit: 'Mbps' },
+    poe: { standard: 'PoE+', watts: 25.5, notes: 'AVer VB342 Pro: PoE+ powered in IP mode. Source: AVer VB342 Pro specifications (aver.com).' },
     multicast: false,
     qos: 'Best effort; USB audio/video device',
     ports: [
@@ -1968,6 +2034,7 @@ const DEVICES = [
     vlan: 'AV_MEDIA',
     vlans: ['AV_MEDIA', 'AV_CTRL'],
     bandwidth: { typical: 10, burst: 30, unit: 'Mbps' },
+    poe: { standard: 'PoE+', watts: 25.5, notes: 'PoE+ powered. Source: AVer TR530/TR310 product specs (aver.com).' },
     multicast: false,
     qos: 'AF41 for video',
     ports: [
@@ -1993,6 +2060,7 @@ const DEVICES = [
     vlan: 'AV_VC',
     vlans: ['AV_VC'],
     bandwidth: { typical: 4, burst: 15, unit: 'Mbps' },
+    poe: { standard: 'AC', watts: null, notes: 'Crestron Flex UC compute is AC powered. Touch controller (TSW/Tap) is PoE+.' },
     multicast: false,
     qos: 'DSCP EF (audio), AF41 (video)',
     ports: [
@@ -2016,6 +2084,7 @@ const DEVICES = [
     vlan: 'AV_CTRL',
     vlans: ['AV_CTRL'],
     bandwidth: { typical: 1, burst: 20, unit: 'Mbps' },
+    poe: { standard: 'PoE+', watts: 25.5, notes: 'PoE+ (802.3at) required. Source: Crestron TSW-1070 spec sheet — "PoE+ (Power over Ethernet Plus) network power". USB accessories require 802.3at Type 2.' },
     multicast: false,
     qos: 'Best effort',
     ports: [
@@ -2038,6 +2107,7 @@ const DEVICES = [
     vlan: 'AV_CTRL',
     vlans: ['AV_CTRL'],
     bandwidth: { typical: 0.1, burst: 1, unit: 'Mbps' },
+    poe: { standard: 'PoE', watts: 12.95, notes: '802.3af PoE standard; PoE+ required if light bar accessory connected. Source: Crestron TSS-10 spec sheet (crestron.com).' },
     multicast: false,
     qos: 'Best effort',
     ports: [
@@ -2059,6 +2129,7 @@ const DEVICES = [
     vlan: 'AV_VC',
     vlans: ['AV_VC'],
     bandwidth: { typical: 10, burst: 25, unit: 'Mbps' },
+    poe: { standard: 'AC', watts: null, notes: 'AirMedia AM-3000/3100 is AC powered. Mounts behind display.' },
     multicast: false,
     qos: 'AF41 for video sharing streams',
     ports: [
@@ -2082,6 +2153,7 @@ const DEVICES = [
     vlan: 'AV_MEDIA',
     vlans: ['AV_MEDIA', 'AV_CTRL'],
     bandwidth: { typical: 750, burst: 1000, unit: 'Mbps' },
+    poe: { standard: 'AC', watts: null, notes: 'DM NVX 384 is AC powered.' },
     multicast: true,
     qos: 'AF41; IGMP v2/v3 required',
     ports: [
@@ -2104,6 +2176,7 @@ const DEVICES = [
     vlan: 'AV_MEDIA',
     vlans: ['AV_MEDIA', 'AV_AUDIO', 'AV_CTRL'],
     bandwidth: { typical: 750, burst: 1000, unit: 'Mbps' },
+    poe: { standard: 'AC', watts: null, notes: 'DM NVX 352 is AC powered.' },
     multicast: true,
     qos: 'AF41 for video; DSCP EF for Dante audio',
     ports: [
@@ -2126,6 +2199,7 @@ const DEVICES = [
     vlan: 'AV_AUDIO',
     vlans: ['AV_AUDIO'],
     bandwidth: { typical: 5, burst: 20, unit: 'Mbps' },
+    poe: { standard: 'AC', watts: null, notes: 'DM NAX amplifiers are AC powered. PoE++ on some compact models.' },
     multicast: true,
     qos: 'Proprietary Q-LAN / DM NAX protocol; treat as DSCP EF',
     ports: [
@@ -2147,6 +2221,7 @@ const DEVICES = [
     vlan: 'AV_CTRL',
     vlans: ['AV_CTRL', 'AV_MEDIA'],
     bandwidth: { typical: 1, burst: 25, unit: 'Mbps' },
+    poe: { standard: 'AC', watts: null, notes: 'DMPS3 is a rack-mounted AC powered presentation system.' },
     multicast: false,
     qos: 'Best effort for control; AF41 for video switching',
     ports: [
@@ -2170,6 +2245,7 @@ const DEVICES = [
     vlan: 'AV_CTRL',
     vlans: ['AV_CTRL'],
     bandwidth: { typical: 1, burst: 5, unit: 'Mbps' },
+    poe: { standard: 'PoE', watts: 15.4, notes: '802.3af PoE powered (15W). Source: Crestron RMC4 product page and documentation — "Using PoE technology, the RMC4 gets its operating power directly through the LAN wiring."' },
     multicast: false,
     qos: 'Best effort',
     ports: [
@@ -2193,6 +2269,7 @@ const DEVICES = [
     vlan: 'AV_CTRL',
     vlans: ['AV_CTRL'],
     bandwidth: { typical: 0.1, burst: 2, unit: 'Mbps' },
+    poe: { standard: null, watts: null, notes: 'Software platform — no physical device, no PoE applicable.' },
     multicast: false,
     qos: 'Best effort; management traffic only',
     ports: [
@@ -2215,6 +2292,7 @@ const DEVICES = [
     vlan: 'AV_CTRL',
     vlans: ['AV_CTRL'],
     bandwidth: { typical: 1, burst: 5, unit: 'Mbps' },
+    poe: { standard: 'AC', watts: null, notes: 'IPCP Pro is AC powered rack/surface-mount unit. AV LAN ports can supply PoE+ to connected endpoints.' },
     multicast: false,
     qos: 'Best effort',
     ports: [
@@ -2237,6 +2315,7 @@ const DEVICES = [
     vlan: 'AV_CTRL',
     vlans: ['AV_CTRL'],
     bandwidth: { typical: 1, burst: 5, unit: 'Mbps' },
+    poe: { standard: 'PoE+', watts: 25.5, notes: 'TouchLink Pro touchpanels: PoE+ (802.3at) powered. Source: Extron TLP Pro product documentation (extron.com).' },
     multicast: false,
     qos: 'Best effort',
     ports: [
@@ -2257,6 +2336,7 @@ const DEVICES = [
     vlan: 'AV_VC',
     vlans: ['AV_VC'],
     bandwidth: { typical: 10, burst: 25, unit: 'Mbps' },
+    poe: { standard: 'AC', watts: null, notes: 'ShareLink Pro 500/1000 is AC powered.' },
     multicast: false,
     qos: 'AF41 for wireless sharing streams',
     ports: [
@@ -2280,6 +2360,7 @@ const DEVICES = [
     vlan: 'AV_CTRL',
     vlans: ['AV_CTRL', 'AV_MEDIA', 'AV_AUDIO'],
     bandwidth: { typical: 2, burst: 25, unit: 'Mbps' },
+    poe: { standard: 'AC', watts: null, notes: 'Rack-mounted AC powered matrix switcher. Integrated AV LAN ports can supply PoE+ to connected AV devices.' },
     multicast: false,
     qos: 'AF41 for video; DSCP EF for Dante (on Dante-equipped models)',
     ports: [
@@ -2304,6 +2385,7 @@ const DEVICES = [
     vlan: 'AV_MEDIA',
     vlans: ['AV_MEDIA', 'AV_CTRL'],
     bandwidth: { typical: 2, burst: 10, unit: 'Mbps' },
+    poe: { standard: 'AC', watts: null, notes: 'Rack-mounted AC powered matrix switcher.' },
     multicast: false,
     qos: 'AF41 for video distribution',
     ports: [
@@ -2325,6 +2407,7 @@ const DEVICES = [
     vlan: 'AV_MEDIA',
     vlans: ['AV_MEDIA', 'AV_CTRL'],
     bandwidth: { typical: 500, burst: 1000, unit: 'Mbps' },
+    poe: { standard: 'PoE+', watts: 25.5, notes: 'NAV E 101 1G encoder/decoder supports PoE+ for power. Larger/10G NAV units may require AC. Source: Extron NAV product data sheets (extron.com).' },
     multicast: true,
     qos: 'AF41 for video; IGMP snooping required',
     ports: [
@@ -2347,6 +2430,7 @@ const DEVICES = [
     vlan: 'AV_MEDIA',
     vlans: ['AV_MEDIA'],
     bandwidth: { typical: 8, burst: 20, unit: 'Mbps' },
+    poe: { standard: 'AC', watts: null, notes: 'SMP streaming processor is rack-mounted AC powered.' },
     multicast: true,
     qos: 'AF41 for streaming video',
     ports: [
@@ -2369,6 +2453,7 @@ const DEVICES = [
     vlan: 'AV_MEDIA',
     vlans: ['AV_MEDIA', 'AV_CTRL'],
     bandwidth: { typical: 20, burst: 100, unit: 'Mbps' },
+    poe: { standard: 'AC', watts: null, notes: 'Quantum Ultra videowall processor is AC powered rack unit.' },
     multicast: false,
     qos: 'AF41 for video inputs',
     ports: [
@@ -2392,6 +2477,7 @@ const DEVICES = [
     vlan: 'AV_AUDIO',
     vlans: ['AV_AUDIO', 'AV_CTRL'],
     bandwidth: { typical: 10, burst: 50, unit: 'Mbps' },
+    poe: { standard: 'AC', watts: null, notes: 'Rack-mounted AC powered Q-SYS Core.' },
     multicast: true,
     qos: 'DSCP 46 (EF) for Q-LAN audio; control traffic best effort',
     ports: [
@@ -2416,6 +2502,7 @@ const DEVICES = [
     vlan: 'AV_AUDIO',
     vlans: ['AV_AUDIO', 'AV_CTRL'],
     bandwidth: { typical: 20, burst: 100, unit: 'Mbps' },
+    poe: { standard: 'AC', watts: null, notes: 'Rack-mounted AC powered Q-SYS Core.' },
     multicast: true,
     qos: 'DSCP EF for Q-LAN; AES67 also supported',
     ports: [
@@ -2440,6 +2527,7 @@ const DEVICES = [
     vlan: 'AV_AUDIO',
     vlans: ['AV_AUDIO'],
     bandwidth: { typical: 5, burst: 20, unit: 'Mbps' },
+    poe: { standard: 'AC', watts: null, notes: 'Rack-mounted AC powered I/O chassis.' },
     multicast: true,
     qos: 'DSCP EF for Q-LAN',
     ports: [
@@ -2460,6 +2548,7 @@ const DEVICES = [
     vlan: 'AV_AUDIO',
     vlans: ['AV_AUDIO'],
     bandwidth: { typical: 3, burst: 10, unit: 'Mbps' },
+    poe: { standard: 'AC', watts: null, notes: 'CX-Q network amplifiers are AC powered rack units. Source: QSC CX-Q product documentation.' },
     multicast: true,
     qos: 'DSCP EF for Q-LAN audio',
     ports: [
@@ -2481,6 +2570,7 @@ const DEVICES = [
     vlan: 'AV_CTRL',
     vlans: ['AV_CTRL', 'AV_AUDIO'],
     bandwidth: { typical: 0.5, burst: 2, unit: 'Mbps' },
+    poe: { standard: 'PoE+', watts: 25.5, notes: 'QSC TSC-G3 touchscreen controllers: PoE+ powered. Source: QSC TSC Series product specifications (qsys.com).' },
     multicast: false,
     qos: 'Best effort',
     ports: [
@@ -2492,25 +2582,92 @@ const DEVICES = [
     notes: 'Q-SYS native touchscreen controllers (TSC-G3 series, 7"/10"). PoE+ powered. Connect directly to Q-SYS Core via TCP 1936. Used for room control, paging, and AV system management. Managed within Q-SYS Designer.',
   },
   {
-    id: 'qsc-nv-series',
-    name: 'QSC NV Series Video Endpoints',
+    id: 'qsc-nv-32-h',
+    name: 'QSC NV-32-H Network Video Endpoint',
     vendor: 'QSC Audio Products',
     category: 'av',
     tag: 'tag-av',
     tagLabel: 'AV/Video',
     vlan: 'AV_MEDIA',
     vlans: ['AV_MEDIA', 'AV_AUDIO'],
-    bandwidth: { typical: 300, burst: 600, unit: 'Mbps' },
+    bandwidth: { typical: 750, burst: 1000, unit: 'Mbps' },
+    poe: { standard: 'PoE++', watts: 71, notes: '802.3bt Type 4 PoE++ REQUIRED — will NOT operate on PoE or PoE+ (802.3af/at). 71W at device. Source: QSC NV-32-H FAQ (qsys.com) and NV-32-H user manual.' },
     multicast: true,
-    qos: 'AF41 for video; all traffic within Q-LAN domain',
+    qos: 'Q-SYS Shift codec; AF41 recommended. Default bitrate 750 Mbps; min 650 Mbps for 4K60.',
     ports: [
-      { port: '4999', proto: 'UDP', direction: 'Local', desc: 'Q-LAN (video + audio to Core)' },
-      { port: '319-320', proto: 'UDP', direction: 'Local', desc: 'PTP' },
-      { port: '1936', proto: 'TCP', direction: 'In', desc: 'Q-SYS Designer' },
+      { port: '1936', proto: 'TCP', direction: 'In', desc: 'Q-SYS Designer / Core connection' },
+      { port: '4999', proto: 'UDP', direction: 'Local', desc: 'Q-LAN video + audio discovery' },
+      { port: '319-320', proto: 'UDP', direction: 'Local', desc: 'PTP time sync' },
+      { port: '443', proto: 'TCP', direction: 'Out', desc: 'Q-SYS Reflect cloud management' },
     ],
-    dns: ['Internal only'],
-    security: ['Q-SYS NV Series carries video AND audio over Q-LAN — single VLAN if audio/video are co-located', 'USB output to room PC for soft codec integration (Teams/Zoom) — no IP routing needed for USB', 'IGMP snooping required'],
-    notes: 'Q-SYS NV Series network HDMI video endpoints (encoder/decoder). Carry video and embedded audio over Q-LAN to/from Q-SYS Core. USB output on decoders for direct Teams/Zoom room PC integration without extra cables. Requires 1Gbps switch port.',
+    dns: ['Internal only; communicates to Q-SYS Core via Q-LAN'],
+    security: [
+      'CRITICAL: Requires 802.3bt Type 4 PoE++ switch port — standard PoE/PoE+ will not power this device',
+      'Dual LAN ports: LAN A for primary Q-LAN, LAN B for redundant Q-LAN (Core Mode only)',
+      '1Gbps ports — despite 2-port design, each port is 1GbE',
+      'Core Capable: can operate as standalone Q-SYS Core processor for smaller rooms',
+      'Supports 802.1X authentication (Q-SYS Designer v8.4+)',
+      'IGMP snooping required on switch for multicast streaming',
+    ],
+    notes: 'Multi-purpose ½-rack 1RU device. Core Mode: acts as full Q-SYS Core processor with local HDMI switching. Peripheral Mode: multi-stream encoder/decoder. Uses Q-SYS Shift adaptive codec (visually lossless, low latency). Dante licensable up to 32x32. Does not ship with power supply — requires 802.3bt Type 4 PoE++ injector or 48VDC PSU (sold separately). Source: q-syshelp.qsc.com NV Series Models.',
+  },
+  {
+    id: 'qsc-nv-21-hu',
+    name: 'QSC NV-21-HU Network Video Endpoint',
+    vendor: 'QSC Audio Products',
+    category: 'av',
+    tag: 'tag-av',
+    tagLabel: 'AV/Video',
+    vlan: 'AV_MEDIA',
+    vlans: ['AV_MEDIA', 'AV_AUDIO'],
+    bandwidth: { typical: 750, burst: 1000, unit: 'Mbps' },
+    poe: { standard: 'PoE++', watts: 40, notes: '802.3bt Type 3, Class 5 PoE++ (45W from PSE, 40W at device). External 12VDC PSU alternative available. Source: q-syshelp.qsc.com NV-21-HU specifications — "802.3bt Type 3 Class 5 (45W from PSE, 40W at NV-21-HU)".' },
+    multicast: true,
+    qos: 'Q-SYS Shift codec; AF41 recommended. Default bitrate 750 Mbps.',
+    ports: [
+      { port: '1936', proto: 'TCP', direction: 'In', desc: 'Q-SYS Designer / Core connection' },
+      { port: '4999', proto: 'UDP', direction: 'Local', desc: 'Q-LAN video + audio discovery' },
+      { port: '319-320', proto: 'UDP', direction: 'Local', desc: 'PTP time sync' },
+      { port: '443', proto: 'TCP', direction: 'Out', desc: 'Q-SYS Reflect' },
+    ],
+    dns: ['Internal only; communicates to Q-SYS Core via Q-LAN'],
+    security: [
+      'Requires 802.3bt Type 3 Class 5 PoE++ switch port (45W from PSE)',
+      '2.5GbE LAN port — requires 2.5GbE-capable PoE++ switch port for full bandwidth',
+      'USB-C AV Bridging requires AV Bridging feature license (not included by default)',
+      'NOTE: When powered by PoE only (without external PSU), USB-C charging of connected devices is not available',
+      'IGMP snooping required for multicast streaming',
+    ],
+    notes: 'Compact dual-channel encoder/decoder. HDMI in + HDMI out + USB-C (DisplayPort Alt Mode input + 65W charging). 2.5GbE port. AV Bridging: connects laptop via USB-C to present Q-SYS audio/video to Teams/Zoom as a virtual webcam/speakerphone (requires license). External 12VDC PSU required if USB-C device charging needed while on PoE. Source: q-syshelp.qsc.com NV-21-HU and QSC spec sheet (qsys.com).',
+  },
+  {
+    id: 'qsc-nv-1-h-we',
+    name: 'QSC NV-1-H-WE Wallplate Encoder',
+    vendor: 'QSC Audio Products',
+    category: 'av',
+    tag: 'tag-av',
+    tagLabel: 'AV/Video',
+    vlan: 'AV_MEDIA',
+    vlans: ['AV_MEDIA', 'AV_AUDIO'],
+    bandwidth: { typical: 650, burst: 800, unit: 'Mbps' },
+    poe: { standard: 'PoE+', watts: 25.5, notes: '802.3at Type 2 Class 4 PoE+ (30W from PSE, 25.5W at device). Source: NV-1-H-WE user manual (qsys.com) — "802.3at Type 2 Class 4 PoE+ (30W from PSE, 25.5W at NV-1-H-WE) power input required."' },
+    multicast: true,
+    qos: 'Q-SYS Shift codec; AF41 recommended. Min 650 Mbps for 4K60; 250 Mbps for 1080p.',
+    ports: [
+      { port: '1936', proto: 'TCP', direction: 'In', desc: 'Q-SYS Designer / Core connection' },
+      { port: '4999', proto: 'UDP', direction: 'Local', desc: 'Q-LAN video + audio discovery' },
+      { port: '319-320', proto: 'UDP', direction: 'Local', desc: 'PTP time sync' },
+      { port: '443', proto: 'TCP', direction: 'Out', desc: 'Q-SYS Reflect' },
+    ],
+    dns: ['Internal only; communicates to Q-SYS Core via Q-LAN'],
+    security: [
+      'PoE+ (802.3at) required — standard PoE (802.3af) is insufficient',
+      '2.5GbE LAN port — requires 2.5GbE-capable PoE+ switch port',
+      'Encoder only (no decoder/output) — sends HDMI source to Q-LAN; decoding requires NV-32-H or NV-21-HU',
+      'Wallplate form factor — installs in standard US single-gang electrical box',
+      'IGMP snooping required for multicast streaming',
+    ],
+    notes: 'Single-channel HDMI wallplate encoder. Launched January 2025 (QSC press release). Encoder only — takes one HDMI source and puts it on Q-LAN. Ideal for table input plates in divisible/flexible rooms. Pairs with NV-32-H or NV-21-HU decoders. PoE+ sufficient (unlike the other NV models). 2.5GbE port. Min 650 Mbps bitrate recommended for 4K60. Source: q-syshelp.qsc.com NV-1-H-WE and QSC user manual.',
   },
   {
     id: 'qsc-nc-camera',
@@ -2522,6 +2679,7 @@ const DEVICES = [
     vlan: 'AV_MEDIA',
     vlans: ['AV_MEDIA', 'AV_CTRL'],
     bandwidth: { typical: 8, burst: 20, unit: 'Mbps' },
+    poe: { standard: 'PoE+', watts: 25.5, notes: 'PoE+ powered PTZ cameras. Source: QSC NC Series product specifications (qsys.com).' },
     multicast: false,
     qos: 'AF41 for video',
     ports: [
@@ -2543,6 +2701,7 @@ const DEVICES = [
     vlan: 'AV_AUDIO',
     vlans: ['AV_AUDIO'],
     bandwidth: { typical: 2, burst: 5, unit: 'Mbps' },
+    poe: { standard: 'PoE+', watts: 25.5, notes: 'QSC NM-T1 tabletop microphone: PoE+ powered. Source: QSC NM Series product documentation (qsys.com).' },
     multicast: true,
     qos: 'DSCP EF; Q-LAN audio',
     ports: [
@@ -2563,6 +2722,7 @@ const DEVICES = [
     vlan: 'AV_AUDIO',
     vlans: ['AV_AUDIO'],
     bandwidth: { typical: 1, burst: 3, unit: 'Mbps' },
+    poe: { standard: 'PoE+', watts: 30, notes: 'PoE+ (802.3at), up to 30W. Source: QSC NL Series product page — "NL Series network loudspeakers integrate into your space with a single Ethernet cable".' },
     multicast: true,
     qos: 'DSCP EF for Q-LAN audio',
     ports: [
@@ -2583,6 +2743,7 @@ const DEVICES = [
     vlan: 'AV_CTRL',
     vlans: ['AV_CTRL'],
     bandwidth: { typical: 0.1, burst: 2, unit: 'Mbps' },
+    poe: { standard: null, watts: null, notes: 'Cloud software platform — no physical device.' },
     multicast: false,
     qos: 'Best effort; management traffic only',
     ports: [
@@ -2605,6 +2766,7 @@ const DEVICES = [
     vlan: 'AV_AUDIO',
     vlans: ['AV_AUDIO', 'AV_CTRL'],
     bandwidth: { typical: 15, burst: 50, unit: 'Mbps' },
+    poe: { standard: 'AC', watts: null, notes: '1RU rack-mounted AC powered processor. Source: QSC Core 24f user manual (qsys.com).' },
     multicast: true,
     qos: 'DSCP EF for Q-LAN and Dante; AES67 supported natively',
     ports: [
@@ -2638,6 +2800,7 @@ const DEVICES = [
     vlan: 'AV_AUDIO',
     vlans: ['AV_AUDIO'],
     bandwidth: { typical: 1, burst: 3, unit: 'Mbps' },
+    poe: { standard: 'PoE+', watts: 40, notes: 'PoE/PoE+, up to 40W; higher wattage = more SPL. Source: MXN5-C architectural spec sheet — "unit shall accept 40 watts PoE in addition to PoE plus and standard PoE". Requires gigabit PoE port.' },
     multicast: true,
     qos: 'DSCP EF; Dante AoIP with AES67 support',
     ports: [
@@ -2669,6 +2832,7 @@ const DEVICES = [
     vlan: 'AV_AUDIO',
     vlans: ['AV_AUDIO'],
     bandwidth: { typical: 1, burst: 3, unit: 'Mbps' },
+    poe: { standard: 'PoE', watts: 15.4, notes: 'Scalable: PoE (8.7dB SPL), PoE+ (more), PoE++ (94dB max SPL). Switch port class determines output power. Source: Extron NF 4C LP product page (extron.com).' },
     multicast: true,
     qos: 'DSCP EF; Dante / AES67 audio',
     ports: [
@@ -2697,6 +2861,7 @@ const DEVICES = [
     vlan: 'AV_AUDIO',
     vlans: ['AV_AUDIO'],
     bandwidth: { typical: 2, burst: 5, unit: 'Mbps' },
+    poe: { standard: 'PoE++', watts: 60, notes: 'PoE++ (802.3bt) required for full 4×20W output. Source: Extron NetPA 204 POE product page — "automatically recognizes connected PoE, PoE+, or PoE++ to deliver the corresponding amount of output power."' },
     multicast: true,
     qos: 'DSCP EF; Dante / AES67',
     ports: [
@@ -2727,6 +2892,7 @@ const DEVICES = [
     vlan: 'AV_AUDIO',
     vlans: ['AV_AUDIO'],
     bandwidth: { typical: 1, burst: 3, unit: 'Mbps' },
+    poe: { standard: 'PoE', watts: 12.95, notes: '802.3af PoE powered. Source: QSC/Attero Tech product page — "PoE enabled, so all connectivity (power, control, and data) is provided by a single CAT-5/6 cable."' },
     multicast: true,
     qos: 'DSCP EF; Dante / AES67',
     ports: [
@@ -2754,6 +2920,7 @@ const DEVICES = [
     vlan: 'AV_AUDIO',
     vlans: ['AV_AUDIO'],
     bandwidth: { typical: 1, burst: 3, unit: 'Mbps' },
+    poe: { standard: 'PoE', watts: 12.95, notes: '802.3af PoE powered. Source: QSC/Attero Tech unD6IO product page (qsys.com).' },
     multicast: true,
     qos: 'DSCP EF; Dante / AES67',
     ports: [
@@ -2860,6 +3027,7 @@ function renderDeviceList(q = '') {
         <span class="spec-pill">${d.bandwidth.typical}${d.bandwidth.unit}</span>
         ${d.multicast ? '<span class="spec-pill">Multicast</span>' : ''}
         <span class="spec-pill">VLAN: ${d.vlan}</span>
+        ${d.poe && d.poe.standard ? `<span class="poe-badge ${d.poe.standard==='PoE'?'poe-af':d.poe.standard==='PoE+'?'poe-at':d.poe.standard.startsWith('PoE++') || d.poe.standard==='PoE++'?'poe-bt':'poe-ac'}">${d.poe.standard}${d.poe.watts?' '+d.poe.watts+'W':''}</span>` : (d.poe && d.poe.standard==='AC' ? '<span class="poe-badge poe-ac">AC</span>' : '')}
       </div>
       <button class="add-btn" onclick="event.stopPropagation(); addDeviceToSelectedRoom('${d.id}')">+</button>
     </div>
@@ -2883,6 +3051,7 @@ function showDeviceDetail(id) {
     <div class="stat-row"><span class="stat-label">VLAN</span><span class="stat-value">${d.vlan}</span></div>
     <div class="stat-row"><span class="stat-label">Bandwidth</span><span class="stat-value">${d.bandwidth.typical} ${d.bandwidth.unit} (burst ${d.bandwidth.burst})</span></div>
     <div class="stat-row"><span class="stat-label">Multicast</span><span class="stat-value ${d.multicast ? 'warn' : 'good'}">${d.multicast ? 'Required' : 'No'}</span></div>
+    <div class="stat-row"><span class="stat-label">PoE</span><span class="stat-value">${d.poe && d.poe.standard ? (d.poe.standard + (d.poe.watts ? ' — '+d.poe.watts+'W' : '')) : 'AC powered'}</span></div>
     <div style="margin-top:8px">
       <button class="btn" style="width:100%;margin-bottom:4px" onclick="openOverlay('${d.id}')">View Full Specs ↗</button>
       <button class="btn primary" style="width:100%" onclick="addDeviceToSelectedRoom('${d.id}')">+ Add to Room</button>
@@ -3187,6 +3356,57 @@ function renderDashboard() {
         </div>
       </div>
     </div>
+
+    <div class="dash-card" style="margin-top:0">
+      <div class="dash-card-title"><span class="dot" style="background:var(--green)"></span>PoE Budget Calculator</div>
+      ${(()=>{
+        const poeDevices = allDevices.filter(d => d.poe && d.poe.standard && d.poe.standard !== 'AC');
+        if (poeDevices.length === 0) return '<div style="color:var(--text3);font-size:12px;">No PoE devices in this deployment.</div>';
+        const grouped = { 'PoE (802.3af — 15.4W/port)': [], 'PoE+ (802.3at — 30W/port)': [], 'PoE++ (802.3bt — 60W/port)': [] };
+        let totalBudget = 0;
+        poeDevices.forEach(d => {
+          const w = d.poe.watts || (d.poe.standard === 'PoE' ? 12.95 : d.poe.standard === 'PoE+' ? 25.5 : 51);
+          totalBudget += w;
+          const grp = d.poe.standard === 'PoE' ? 'PoE (802.3af — 15.4W/port)' : d.poe.standard === 'PoE+' ? 'PoE+ (802.3at — 30W/port)' : 'PoE++ (802.3bt — 60W/port)';
+          grouped[grp].push({ name: d.name, watts: w });
+        });
+        const colors = { 'PoE (802.3af — 15.4W/port)': 'var(--green)', 'PoE+ (802.3at — 30W/port)': 'var(--accent)', 'PoE++ (802.3bt — 60W/port)': 'var(--purple)' };
+        let html = `<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px">
+          <div style="background:var(--bg3);border-radius:8px;padding:10px;text-align:center">
+            <div style="font-size:10px;color:var(--text3);font-family:'IBM Plex Mono',monospace;letter-spacing:.06em;margin-bottom:4px">PoE PORTS NEEDED</div>
+            <div style="font-size:24px;font-weight:300;font-family:'IBM Plex Mono',monospace;color:var(--text)">${poeDevices.length}</div>
+          </div>
+          <div style="background:var(--bg3);border-radius:8px;padding:10px;text-align:center">
+            <div style="font-size:10px;color:var(--text3);font-family:'IBM Plex Mono',monospace;letter-spacing:.06em;margin-bottom:4px">TOTAL BUDGET</div>
+            <div style="font-size:24px;font-weight:300;font-family:'IBM Plex Mono',monospace;color:${totalBudget>500?'var(--amber)':'var(--text)'}">${Math.round(totalBudget)}W</div>
+          </div>
+          <div style="background:var(--bg3);border-radius:8px;padding:10px;text-align:center">
+            <div style="font-size:10px;color:var(--text3);font-family:'IBM Plex Mono',monospace;letter-spacing:.06em;margin-bottom:4px">AVG PER PORT</div>
+            <div style="font-size:24px;font-weight:300;font-family:'IBM Plex Mono',monospace;color:var(--text)">${Math.round(totalBudget/poeDevices.length)}W</div>
+          </div>
+        </div>`;
+        Object.entries(grouped).forEach(([label, devices]) => {
+          if (devices.length === 0) return;
+          const groupW = devices.reduce((s,d)=>s+d.watts,0);
+          html += `<div style="margin-bottom:10px">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+              <span style="font-size:11px;font-weight:500;color:${colors[label]};font-family:'IBM Plex Mono',monospace">${label}</span>
+              <span style="font-size:11px;color:var(--text3);font-family:'IBM Plex Mono',monospace">${devices.length} ports · ${Math.round(groupW)}W total</span>
+            </div>
+            <div style="display:flex;flex-wrap:wrap;gap:4px">
+              ${devices.map(d=>`<div style="background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:3px 8px;font-size:11px;display:flex;gap:6px;align-items:center">
+                <span style="color:var(--text2)">${d.name}</span>
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:${colors[label]}">${d.watts}W</span>
+              </div>`).join('')}
+            </div>
+          </div>`;
+        });
+        html += `<div style="margin-top:10px;padding:8px 10px;background:rgba(88,166,255,0.08);border:1px solid rgba(88,166,255,0.2);border-radius:6px;font-size:11px;color:var(--text2)">
+          <strong style="color:var(--text)">Switch planning note:</strong> Add 20–25% headroom to total budget. A 48-port PoE+ switch typically provides 370–740W total budget depending on model. PoE++ ports require an 802.3bt-capable switch — not all PoE+ switches support PoE++.
+        </div>`;
+        return html;
+      })()}
+    </div>
   `;
   } catch(e) {
     document.getElementById('dashboardContent').innerHTML = `<div style="padding:20px;color:var(--red);font-family:'IBM Plex Mono',monospace;font-size:12px;">Dashboard error: ${e.message}</div>`;
@@ -3316,6 +3536,9 @@ function openOverlay(id) {
         <div class="stat-row"><span class="stat-label">Typical</span><span class="stat-value">${d.bandwidth.typical} ${d.bandwidth.unit}</span></div>
         <div class="stat-row"><span class="stat-label">Burst/Max</span><span class="stat-value">${d.bandwidth.burst} ${d.bandwidth.unit}</span></div>
         <div class="stat-row"><span class="stat-label">Multicast</span><span class="stat-value ${d.multicast?'warn':'good'}">${d.multicast?'Required':'No'}</span></div>
+        <div class="stat-row"><span class="stat-label">PoE Standard</span><span class="stat-value">${d.poe&&d.poe.standard?d.poe.standard:'AC powered'}</span></div>
+        <div class="stat-row"><span class="stat-label">PoE Watts</span><span class="stat-value">${d.poe&&d.poe.watts?d.poe.watts+'W at device':d.poe&&d.poe.standard==='AC'?'AC powered':'—'}</span></div>
+        ${d.poe&&d.poe.notes?`<div style="margin-top:4px;font-size:10px;color:var(--text3);font-style:italic">${d.poe.notes}</div>`:''}
         <div class="stat-row"><span class="stat-label">QoS</span><span class="stat-value" style="font-size:10px;max-width:150px;text-align:right">${d.qos}</span></div>
       </div>
       <div>
