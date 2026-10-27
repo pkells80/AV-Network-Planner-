@@ -1133,7 +1133,7 @@ const DEVICES = [
   // ── NEAT ──────────────────────────────────────────────────────────────────
   {
     id: 'neat-bar',
-    name: 'Neat Bar',
+    name: 'Neat Bar Gen 1',
     vendor: 'Neat',
     category: 'vc',
     tag: 'tag-vc',
@@ -1203,7 +1203,7 @@ const DEVICES = [
   },
   {
     id: 'neat-board',
-    name: 'Neat Board',
+    name: 'Neat Board (55″)',
     vendor: 'Neat',
     category: 'vc',
     tag: 'tag-vc',
@@ -1248,7 +1248,7 @@ const DEVICES = [
   },
   {
     id: 'neat-pad',
-    name: 'Neat Pad',
+    name: 'Neat Pad (1st Gen)',
     vendor: 'Neat',
     category: 'ctrl',
     tag: 'tag-ctrl',
@@ -1268,7 +1268,122 @@ const DEVICES = [
     notes: 'Touch controller for Neat Bar/Board. Pairs locally via mDNS. Must be on same VLAN as Neat Bar or mDNS proxy required.',
   },
 
-  // ── LOGITECH ──────────────────────────────────────────────────────────────
+    // Neat Center — AI-enabled ceiling-mount audio/video accessory
+  {
+    id: 'neat-center',
+    name: 'Neat Center',
+    vendor: 'Neat',
+    category: 'vc',
+    tag: 'tag-vc',
+    tagLabel: 'Video Conf',
+    vlan: 'AV_VC',
+    vlans: ['AV_VC'],
+    bandwidth: { typical: 2, burst: 5, unit: 'Mbps' },
+    poe: { standard: 'PoE+', watts: 25, notes: 'IEEE 802.3at (PoE+) powered; 25W typical. No AC adapter required.' },
+    multicast: false,
+    qos: 'DSCP CS4 recommended for video; DSCP CS3 for audio',
+    ports: [
+      { proto: 'TCP', port: 443, dir: 'out', description: 'Neat cloud services and firmware updates' },
+      { proto: 'UDP', port: 3478, dir: 'out', description: 'STUN/TURN for video conferencing' },
+    ],
+    dns: ['neat.no', 'microsoft.com', 'zoom.us'],
+    security: ['WPA3 Wi-Fi supported', 'TLS 1.2+ for cloud comms', 'MDM via Neat Pulse'],
+    notes: 'Round ceiling-mount hub pairing with Neat Bar or Neat Board for directional audio and center-of-room video. PoE+ via single Ethernet cable; connects to host device via USB-C or Ethernet. Supports Dual Neat Centers in large rooms (firmware 2025).',
+  },
+
+  // Neat Board Pro — premium interactive 65″ all-in-one MTR device
+  {
+    id: 'neat-board-pro',
+    name: 'Neat Board Pro',
+    vendor: 'Neat',
+    category: 'vc',
+    tag: 'tag-vc',
+    tagLabel: 'Video Conf',
+    vlan: 'AV_VC',
+    vlans: ['AV_VC'],
+    bandwidth: { typical: 6, burst: 15, unit: 'Mbps' },
+    poe: { standard: 'AC', watts: null, notes: 'AC powered (IEC C13). No PoE.' },
+    multicast: false,
+    qos: 'DSCP CS4 recommended for video; DSCP CS3 for audio',
+    ports: [
+      { proto: 'TCP', port: 443, dir: 'out', description: 'Teams/Zoom cloud signaling' },
+      { proto: 'UDP', port: 3478, dir: 'out', description: 'STUN/TURN for video conferencing' },
+    ],
+    dns: ['neat.no', 'microsoft.com', 'zoom.us'],
+    security: ['WPA3 Wi-Fi supported', 'TLS 1.2+ for cloud comms', 'MDM via Neat Pulse'],
+    notes: 'Premium 65″ 4K touchscreen all-in-one for medium-to-large rooms. 12MP PTZ camera (120° FOV), built-in speaker bar, supports Teams Rooms and Zoom Rooms. Single Ethernet connection for wired deployment.',
+  },
+
+  // Neat Board 50 — compact 50″ all-in-one MTR device
+  {
+    id: 'neat-board-50',
+    name: 'Neat Board 50',
+    vendor: 'Neat',
+    category: 'vc',
+    tag: 'tag-vc',
+    tagLabel: 'Video Conf',
+    vlan: 'AV_VC',
+    vlans: ['AV_VC'],
+    bandwidth: { typical: 4, burst: 10, unit: 'Mbps' },
+    poe: { standard: 'AC', watts: null, notes: 'AC powered. No PoE.' },
+    multicast: false,
+    qos: 'DSCP CS4 recommended for video',
+    ports: [
+      { proto: 'TCP', port: 443, dir: 'out', description: 'Teams/Zoom cloud signaling' },
+      { proto: 'UDP', port: 3478, dir: 'out', description: 'STUN/TURN' },
+    ],
+    dns: ['neat.no', 'microsoft.com', 'zoom.us'],
+    security: ['TLS 1.2+', 'MDM via Neat Pulse'],
+    notes: '50″ 4K touchscreen all-in-one for small-to-medium rooms. Built-in 12MP camera and speaker bar. Supports Teams Rooms and Zoom Rooms. Compact form factor for huddle rooms.',
+  },
+
+  // Neat Pad Generation 2 — PoE room controller and scheduling display
+  {
+    id: 'neat-pad-gen2',
+    name: 'Neat Pad Generation 2',
+    vendor: 'Neat',
+    category: 'ctrl',
+    tag: 'tag-ctrl',
+    tagLabel: 'Control',
+    vlan: 'AV_CTRL',
+    vlans: ['AV_CTRL'],
+    bandwidth: { typical: 1, burst: 3, unit: 'Mbps' },
+    poe: { standard: 'PoE', watts: 3.4, notes: 'IEEE 802.3af Class 3 (mode A&B), 56V/0.275A. Power draw: 3.4W in-call, 2W screen-off. 1 Gbps Ethernet. Optional AC adapter available.' },
+    multicast: false,
+    qos: 'DSCP CS2 for control traffic',
+    ports: [
+      { proto: 'TCP', port: 443, dir: 'out', description: 'Neat cloud services, Teams/Zoom/Meet signaling' },
+      { proto: 'UDP', port: 3478, dir: 'out', description: 'STUN/TURN for media (when used as MTR controller)' },
+    ],
+    dns: ['neat.no', 'microsoft.com', 'zoom.us', 'google.com'],
+    security: ['WPA3 Wi-Fi 6 supported', 'TLS 1.2+ for cloud comms', 'MDM via Neat Pulse'],
+    notes: '8″ 1280×800 HD touch controller and scheduling display. Supports Microsoft Teams Rooms on Android, Zoom Rooms, Google Meet, and Neat Open/BYOD. Single PoE Ethernet; Wi-Fi 6 available. Pairs with Neat Bar, Neat Bar Pro, Neat Board and Neat Board Pro as a room controller. Source: neat.no/pad-2/',
+  },
+
+  // Neat Pad Pro — 10″ premium PoE room controller and scheduling display
+  {
+    id: 'neat-pad-pro',
+    name: 'Neat Pad Pro',
+    vendor: 'Neat',
+    category: 'ctrl',
+    tag: 'tag-ctrl',
+    tagLabel: 'Control',
+    vlan: 'AV_CTRL',
+    vlans: ['AV_CTRL'],
+    bandwidth: { typical: 1, burst: 3, unit: 'Mbps' },
+    poe: { standard: 'PoE', watts: 4.8, notes: 'IEEE 802.3af Class 0 (mode A/B), 56V/0.275A. Power draw: 4.8W in-call, 2.8W screen-off. 2.5 Gbps Ethernet. Optional AC adapter available.' },
+    multicast: false,
+    qos: 'DSCP CS2 for control traffic',
+    ports: [
+      { proto: 'TCP', port: 443, dir: 'out', description: 'Neat cloud services, Teams/Zoom/Meet signaling' },
+      { proto: 'UDP', port: 3478, dir: 'out', description: 'STUN/TURN for media' },
+    ],
+    dns: ['neat.no', 'microsoft.com', 'zoom.us', 'google.com'],
+    security: ['WPA3 Wi-Fi 6E supported', 'TLS 1.2+ for cloud comms', 'MDM via Neat Pulse'],
+    notes: '10.1″ 1920×1200 premium touch controller and scheduling display. Supports Microsoft Teams Rooms on Android, Zoom Rooms, Google Meet, and Neat Open. 2.5 Gbps Ethernet with PoE; Wi-Fi 6E available. Pairs with Neat Bar, Neat Bar Pro, Neat Board Pro as a room controller. Source: neat.no/pad-pro/',
+  },
+
+// ── LOGITECH ──────────────────────────────────────────────────────────────
   {
     id: 'logi-rally-bar',
     name: 'Logitech Rally Bar / Mini',
@@ -1590,10 +1705,56 @@ const DEVICES = [
     notes: 'Medium room all-in-one system. Designed for Zoom Rooms or Teams Rooms. Pairs with TC10 touch controller. Managed via Poly Lens.',
   },
 
-  // ── BIAMP (additional) ────────────────────────────────────────────────────
+    // Logitech Rally Board 65 — 65″ all-in-one MTR/Zoom/BYOD device
+  {
+    id: 'logi-rally-board-65',
+    name: 'Logitech Rally Board 65',
+    vendor: 'Logitech',
+    category: 'vc',
+    tag: 'tag-vc',
+    tagLabel: 'Video Conf',
+    vlan: 'AV_VC',
+    vlans: ['AV_VC'],
+    bandwidth: { typical: 6, burst: 20, unit: 'Mbps' },
+    poe: { standard: 'AC', watts: null, notes: 'AC powered (100–240V, IEC cable). No PoE. Includes 3m AC cable.' },
+    multicast: false,
+    qos: 'DSCP CS4 for video; DSCP CS3 for audio',
+    ports: [
+      { proto: 'TCP', port: 443, dir: 'out', description: 'Teams/Zoom/Google Meet cloud signaling' },
+      { proto: 'UDP', port: 3478, dir: 'out', description: 'STUN/TURN for media' },
+    ],
+    dns: ['microsoft.com', 'zoom.us', 'google.com', 'logi.com'],
+    security: ['TLS 1.2+ for cloud comms', 'Logitech Sync MDM', 'Certificate-based auth'],
+    notes: '65″ 4K touchscreen all-in-one for medium rooms. Integrated 4K camera with AI framing, built-in mic arrays and speakers. Supports Microsoft Teams Rooms, Zoom Rooms, Google Meet and BYOD mode. Single Ethernet + AC power. Shipping May 2025.',
+  },
+  // HP Poly Studio G62 — modular video bar for medium/large rooms (2025)
+  {
+    id: 'poly-studio-g62',
+    name: 'HP Poly Studio G62',
+    vendor: 'HP Poly',
+    category: 'vc',
+    tag: 'tag-vc',
+    tagLabel: 'Video Conf',
+    vlan: 'AV_VC',
+    vlans: ['AV_VC', 'AV_CTRL'],
+    bandwidth: { typical: 4, burst: 12, unit: 'Mbps' },
+    poe: { standard: 'PoE+', watts: 30, notes: 'IEEE 802.3at (PoE+) powered at 30W. Single Ethernet cable for power + data.' },
+    multicast: false,
+    qos: 'DSCP CS4 for video; DSCP CS3 for audio',
+    ports: [
+      { proto: 'TCP', port: 443, dir: 'out', description: 'Teams/Zoom signaling and provisioning' },
+      { proto: 'UDP', port: 3478, dir: 'out', description: 'STUN/TURN for media streams' },
+    ],
+    dns: ['microsoft.com', 'zoom.us', 'hp.com', 'polycom.com'],
+    security: ['TLS 1.2+ for cloud', 'Poly Lens MDM', 'Certificate-based 802.1X'],
+    notes: 'Modular 4K video bar for medium to large rooms. Microsoft Teams certified. Supports optional satellite mics and tracking cameras. PoE+ via single Ethernet. Managed via Poly Lens cloud. MSRP ~$1,999.',
+  },
+
+
+// ── BIAMP (additional) ────────────────────────────────────────────────────
   {
     id: 'biamp-devio',
-    name: 'Biamp Devio SCR',
+    name: 'Biamp Devio SCR / UCX Series',
     vendor: 'Biamp Systems',
     category: 'audio',
     tag: 'tag-audio',
@@ -1657,6 +1818,52 @@ const DEVICES = [
     security: ['Dante isolation required', 'Network amplifier — high power device; check PoE budget if PoE-powered model', 'Change default web credentials'],
     notes: 'Network-connected power amplifier with Dante audio input. Replaces traditional analog amp runs. Requires Dante VLAN with PTP. Managed via web interface or Tesira.',
   },
+  // Biamp BMA 360D — Dante ceiling mic array with AI DSP (2025)
+  {
+    id: 'biamp-bma360d',
+    name: 'Biamp BMA 360D',
+    vendor: 'Biamp Systems',
+    category: 'audio',
+    tag: 'tag-audio',
+    tagLabel: 'Audio DSP',
+    vlan: 'AV_AUDIO',
+    vlans: ['AV_AUDIO', 'AV_CTRL'],
+    bandwidth: { typical: 5, burst: 10, unit: 'Mbps' },
+    poe: { standard: 'PoE+', watts: 25, notes: 'IEEE 802.3at (PoE+) powered; 25W typical. Single RJ-45 for Dante audio + power.' },
+    multicast: true,
+    qos: 'DSCP EF for Dante audio streams; IGMP snooping required',
+    ports: [
+      { proto: 'UDP', port: 5004, dir: 'in/out', description: 'Dante/AES67 audio stream' },
+      { proto: 'UDP', port: 8700, dir: 'in/out', description: 'Dante Discovery (mDNS)' },
+      { proto: 'TCP', port: 443, dir: 'out', description: 'Biamp cloud management / firmware' },
+    ],
+    dns: ['biamp.com'],
+    security: ['Dante Domain Manager compatible', 'TLS 1.2+ management', '802.1X port authentication'],
+    notes: 'Ceiling array microphone with 360° coverage and built-in IntelliMix DSP (AEC, NR, dereverberation). Dante primary network; integrates natively with Biamp Tesira and Devio UCX. Teams Rooms and Zoom Rooms certified. Requires AV_AUDIO VLAN with IGMP snooping.',
+  },
+
+  // Biamp Apprimo Touch 10 UCX — PoE touch controller for Devio UCX
+  {
+    id: 'biamp-apprimo-touch10-ucx',
+    name: 'Biamp Apprimo Touch 10 UCX',
+    vendor: 'Biamp Systems',
+    category: 'ctrl',
+    tag: 'tag-ctrl',
+    tagLabel: 'Control',
+    vlan: 'AV_CTRL',
+    vlans: ['AV_CTRL'],
+    bandwidth: { typical: 1, burst: 3, unit: 'Mbps' },
+    poe: { standard: 'PoE', watts: 12, notes: 'IEEE 802.3af (PoE) powered; ~12W. Single Ethernet for power + control data.' },
+    multicast: false,
+    qos: 'DSCP CS2 for control traffic',
+    ports: [
+      { proto: 'TCP', port: 443, dir: 'out', description: 'Cloud provisioning / Biamp management' },
+    ],
+    dns: ['biamp.com'],
+    security: ['TLS 1.2+ for control comms', '802.1X port authentication'],
+    notes: '10″ PoE touch controller paired exclusively with Biamp Devio UCX platform. Displays meeting info, room controls, and occupancy. Replaces Apprimo Touch 10 in UCX deployments. Single PoE Ethernet connection.',
+  },
+
 
   // ── SHURE ──────────────────────────────────────────────────────────────────
   {
@@ -1795,8 +2002,149 @@ const DEVICES = [
     security: ['Same as P300 — Dante to USB bridge', 'Smaller/simpler than P300; fewer DSP features'],
     notes: 'Dante-to-USB audio interface. Simpler than P300 — acts as network audio bridge to USB for room PCs. Dante in, USB out. PoE powered.',
   },
+  // Shure MXA925 — AI-enabled ceiling array mic (2025)
+  {
+    id: 'shure-mxa925',
+    name: 'Shure MXA925',
+    vendor: 'Shure',
+    category: 'audio',
+    tag: 'tag-audio',
+    tagLabel: 'Audio DSP',
+    vlan: 'AV_AUDIO',
+    vlans: ['AV_AUDIO', 'AV_CTRL'],
+    bandwidth: { typical: 5, burst: 10, unit: 'Mbps' },
+    poe: { standard: 'PoE+', watts: 25, notes: 'IEEE 802.3at (PoE+) powered; ~25W. Dual RJ-45 (primary + redundant Dante). No AC adapter required.' },
+    multicast: true,
+    qos: 'DSCP EF for Dante streams; IGMP snooping required on AV_AUDIO VLAN',
+    ports: [
+      { proto: 'UDP', port: 5004, dir: 'in/out', description: 'Dante/AES67 audio streams' },
+      { proto: 'UDP', port: 8700, dir: 'in/out', description: 'Dante Discovery (mDNS)' },
+      { proto: 'TCP', port: 443, dir: 'out', description: 'Shure cloud firmware / SystemOn management' },
+    ],
+    dns: ['shure.com', 'cloud.shure.com'],
+    security: ['Dante Domain Manager supported', 'TLS 1.2+ management', '802.1X port authentication'],
+    notes: 'Next-generation ceiling array mic with onboard IntelliMix DSP including AI AEC, AI noise reduction, and AI dereverberation. Successor/sibling to MXA920. Supports Microsoft Teams and Zoom Rooms certified setups. Requires AV_AUDIO VLAN with IGMP snooping and multicast routing.',
+  },
 
-  // ── SENNHEISER ────────────────────────────────────────────────────────────
+  // Shure MXA320 — table array mic with steerable coverage and Dante (2025)
+  {
+    id: 'shure-mxa320',
+    name: 'Shure MXA320',
+    vendor: 'Shure',
+    category: 'audio',
+    tag: 'tag-audio',
+    tagLabel: 'Audio DSP',
+    vlan: 'AV_AUDIO',
+    vlans: ['AV_AUDIO', 'AV_CTRL'],
+    bandwidth: { typical: 3, burst: 8, unit: 'Mbps' },
+    poe: { standard: 'PoE', watts: 10, notes: 'IEEE 802.3af Class 0 powered; ~10W. Single RJ-45 Dante + PoE.' },
+    multicast: true,
+    qos: 'DSCP EF for Dante streams; IGMP snooping required',
+    ports: [
+      { proto: 'UDP', port: 5004, dir: 'in/out', description: 'Dante audio streams' },
+      { proto: 'UDP', port: 8700, dir: 'in/out', description: 'Dante Discovery' },
+      { proto: 'TCP', port: 443, dir: 'out', description: 'Shure SystemOn management' },
+    ],
+    dns: ['shure.com'],
+    security: ['Dante Domain Manager supported', 'TLS 1.2+ management', '802.1X'],
+    notes: 'Table array microphone with steerable coverage zones and IntelliMix DSP onboard. 8 steerable lobes with AEC and noise reduction per zone. Dante primary transport. PoE Class 0 via single Ethernet. Designed for conference tables in medium rooms.',
+  },
+
+
+    // ── YEALINK ──────────────────────────────────────────────────────────────────
+
+  // Yealink MeetingBar A30 — small room all-in-one video bar (MTR / Zoom)
+  {
+    id: 'yealink-meetingbar-a30',
+    name: 'Yealink MeetingBar A30',
+    vendor: 'Yealink',
+    category: 'vc',
+    tag: 'tag-vc',
+    tagLabel: 'Video Conf',
+    vlan: 'AV_VC',
+    vlans: ['AV_VC'],
+    bandwidth: { typical: 4, burst: 10, unit: 'Mbps' },
+    poe: { standard: 'PoE+', watts: 25.5, notes: 'IEEE 802.3at (PoE+) powered; 25.5W max. AC adapter also included as alternative.' },
+    multicast: false,
+    qos: 'DSCP CS4 for video; DSCP CS3 for audio',
+    ports: [
+      { proto: 'TCP', port: 443, dir: 'out', description: 'Teams/Zoom cloud signaling' },
+      { proto: 'UDP', port: 3478, dir: 'out', description: 'STUN/TURN for media' },
+    ],
+    dns: ['microsoft.com', 'zoom.us', 'yealink.com'],
+    security: ['TLS 1.2+ for cloud comms', 'Yealink Device Management Platform (YDMP)', 'Certificate-based auth'],
+    notes: 'All-in-one Android-based video bar for huddle rooms and small conference rooms (≤4 people). Dual 8MP cameras, 120° FOV. Microsoft Teams Rooms and Zoom Rooms certified. Single PoE+ Ethernet. Managed via Yealink Management Cloud Service (YMCS).',
+  },
+
+  // Yealink MeetingBar A40 — medium room video bar with dual cameras (MTR / Zoom)
+  {
+    id: 'yealink-meetingbar-a40',
+    name: 'Yealink MeetingBar A40',
+    vendor: 'Yealink',
+    category: 'vc',
+    tag: 'tag-vc',
+    tagLabel: 'Video Conf',
+    vlan: 'AV_VC',
+    vlans: ['AV_VC'],
+    bandwidth: { typical: 5, burst: 15, unit: 'Mbps' },
+    poe: { standard: 'PoE+', watts: 25.5, notes: 'IEEE 802.3at (PoE+) powered; 25.5W max. AC adapter alternative.' },
+    multicast: false,
+    qos: 'DSCP CS4 for video; DSCP CS3 for audio',
+    ports: [
+      { proto: 'TCP', port: 443, dir: 'out', description: 'Teams/Zoom cloud signaling' },
+      { proto: 'UDP', port: 3478, dir: 'out', description: 'STUN/TURN for media' },
+    ],
+    dns: ['microsoft.com', 'zoom.us', 'yealink.com'],
+    security: ['TLS 1.2+ for cloud comms', 'YMCS/YDMP management', 'Android 13 security patches'],
+    notes: 'All-in-one Android 13 video bar for medium conference rooms (up to 12 people). Dual 48MP cameras with 120° FOV; AI speaker tracking. Microsoft Teams Rooms (MDEP) and Zoom Rooms certified. Single PoE+ Ethernet connection. Pairs with CTP25 touch controller.',
+  },
+
+  // Yealink MeetingBar A50 — large room all-in-one video bar (MTR / Zoom)
+  {
+    id: 'yealink-meetingbar-a50',
+    name: 'Yealink MeetingBar A50',
+    vendor: 'Yealink',
+    category: 'vc',
+    tag: 'tag-vc',
+    tagLabel: 'Video Conf',
+    vlan: 'AV_VC',
+    vlans: ['AV_VC'],
+    bandwidth: { typical: 6, burst: 20, unit: 'Mbps' },
+    poe: { standard: 'AC', watts: null, notes: 'AC powered. No PoE. Separate AC adapter required for larger rooms.' },
+    multicast: false,
+    qos: 'DSCP CS4 for video; DSCP CS3 for audio',
+    ports: [
+      { proto: 'TCP', port: 443, dir: 'out', description: 'Teams/Zoom cloud signaling' },
+      { proto: 'UDP', port: 3478, dir: 'out', description: 'STUN/TURN for media' },
+    ],
+    dns: ['microsoft.com', 'zoom.us', 'yealink.com'],
+    security: ['TLS 1.2+ for cloud comms', 'YMCS/YDMP management', 'Android security patches'],
+    notes: 'All-in-one video bar for large conference rooms. Multiple camera options with intelligent tracking. Microsoft Teams Rooms and Zoom Rooms certified. AC powered with Ethernet uplink. Pairs with CTP25 touch controller. Managed via YMCS cloud platform.',
+  },
+
+  // Yealink CTP25 — PoE touch controller for MeetingBar A-series
+  {
+    id: 'yealink-ctp25',
+    name: 'Yealink CTP25 Touch Controller',
+    vendor: 'Yealink',
+    category: 'ctrl',
+    tag: 'tag-ctrl',
+    tagLabel: 'Control',
+    vlan: 'AV_CTRL',
+    vlans: ['AV_CTRL'],
+    bandwidth: { typical: 1, burst: 3, unit: 'Mbps' },
+    poe: { standard: 'PoE', watts: 12, notes: 'IEEE 802.3af (PoE) powered; ~12W. Single Ethernet for power + data.' },
+    multicast: false,
+    qos: 'DSCP CS2 for control traffic',
+    ports: [
+      { proto: 'TCP', port: 443, dir: 'out', description: 'Cloud provisioning and management' },
+    ],
+    dns: ['microsoft.com', 'zoom.us', 'yealink.com'],
+    security: ['TLS 1.2+', 'YMCS management'],
+    notes: '10″ PoE Android touch controller for Yealink MeetingBar A-series. Displays calendar, meeting controls and room info. Pairs via Wi-Fi or Ethernet to MeetingBar host. Single PoE Ethernet connection.',
+  },
+
+// ── SENNHEISER ────────────────────────────────────────────────────────────
   {
     id: 'senn-tcc2',
     name: 'Sennheiser TeamConnect Ceiling 2',
@@ -2097,7 +2445,7 @@ const DEVICES = [
   },
   {
     id: 'crestron-airmedia',
-    name: 'Crestron AirMedia Receiver',
+    name: 'Crestron AirMedia Series 3 (AM-3200-WF)',
     vendor: 'Crestron Electronics',
     category: 'av',
     tag: 'tag-av',
@@ -2105,7 +2453,7 @@ const DEVICES = [
     vlan: 'AV_VC',
     vlans: ['AV_VC'],
     bandwidth: { typical: 10, burst: 25, unit: 'Mbps' },
-    poe: { standard: 'AC', watts: null, notes: 'AirMedia AM-3000/3100 is AC powered. Mounts behind display.' },
+    poe: { standard: 'AC', watts: null, notes: 'AirMedia Series 3 (AM-3200/AM-3100) is AC powered. Integrated dual-band Wi-Fi (AP mode for guest devices). Mounts behind display or in rack. Source: crestron.com AirMedia Series 3.' },
     multicast: false,
     qos: 'AF41 for video sharing streams',
     ports: [
@@ -2419,6 +2767,238 @@ const DEVICES = [
     security: ['NOT a physical device — this entry represents the XiO Cloud outbound requirement shared by all Crestron hardware', 'If ANY Crestron device is managed via XiO, outbound 41797 + 443 must be allowed from AV_CTRL VLAN', 'XiO Premium tier adds REST API access — consider dedicated API VLAN ACL'],
     notes: 'XiO Cloud is Crestron\'s cloud management platform (not a device). Every Crestron device using XiO needs outbound TCP 41797 and 443. Free tier available; Premium adds 3rd-party monitoring and REST API. All Crestron firewall rules should include these ports.',
   },
+  {
+    id: 'crestron-iv-cam-p12',
+    name: 'Crestron 1 Beyond IV-CAM-P12',
+    vendor: 'Crestron Electronics (1 Beyond)',
+    category: 'av',
+    tag: 'tag-av',
+    tagLabel: 'AV/Video',
+    vlan: 'AV_MEDIA',
+    vlans: ['AV_MEDIA', 'AV_CTRL'],
+    bandwidth: { typical: 8, burst: 20, unit: 'Mbps' },
+    poe: { standard: 'PoE', watts: 15.4, notes: 'IEEE 802.3af Class 3 Powered Device, 15.4W. Alternatively powered by PW-1225DU (12VDC 2.5A, sold separately). Source: docs.crestron.com IV-CAM-P12 Specifications — Power over Ethernet: IEEE 802.3af Class 3, 15.4W.' },
+    multicast: false,
+    qos: 'DSCP AF41 recommended for NDI|HX2 and RTSP streams. VISCA/TCP control traffic is negligible.',
+    ports: [
+      { port: '80/443', proto: 'TCP', direction: 'In', desc: 'Web UI / HTTPS management' },
+      { port: '554', proto: 'TCP/UDP', direction: 'In', desc: 'RTSP video stream' },
+      { port: '5960', proto: 'UDP', direction: 'Local', desc: 'NDI|HX2 discovery and streaming' },
+      { port: '52116', proto: 'TCP/UDP', direction: 'Local', desc: 'NDI|HX2 stream transport' },
+      { port: 'variable', proto: 'TCP', direction: 'In', desc: 'VISCA/TCP camera control' },
+    ],
+    dns: ['Internal only — no cloud dependency. Camera Manager software on local Windows PC for configuration.'],
+    security: [
+      'Managed via Crestron 1 Beyond Camera Manager 2 software (Windows OS required)',
+      'Compatible with Automate VX (IV-SAM-VX2-S) for multi-camera speaker tracking',
+      'Certified for Microsoft Teams Rooms and Zoom Rooms — USB-B port connects directly to codec',
+      'Video outputs: 3G-SDI, HDMI, USB (UVC), NDI|HX2, ONVIF, RTSP — all active simultaneously',
+      'RS-232/485 serial control available via 5-pin terminal block (VISCA, PELCO-D/P)',
+      '100Mbps Ethernet port — not gigabit; plan switch port accordingly',
+      'Intelligent Switching: up to 5 IV-CAM cameras can auto-switch without Automate VX (requires IV-CAM-I12 as group framing anchor)',
+    ],
+    notes: 'Crestron 1 Beyond PTZ camera, 12x optical zoom, Sony 1/2.8" CMOS sensor, 1080p60. Ideal for medium to large rooms. FOV 67.68° wide. 256 configurable presets. Pan ±130°, Tilt -30° to 90°. Source: docs.crestron.com IV-CAM-P12 Specifications (P12Specs.htm).',
+  },
+  {
+    id: 'crestron-iv-cam-p20',
+    name: 'Crestron 1 Beyond IV-CAM-P20',
+    vendor: 'Crestron Electronics (1 Beyond)',
+    category: 'av',
+    tag: 'tag-av',
+    tagLabel: 'AV/Video',
+    vlan: 'AV_MEDIA',
+    vlans: ['AV_MEDIA', 'AV_CTRL'],
+    bandwidth: { typical: 8, burst: 20, unit: 'Mbps' },
+    poe: { standard: 'PoE', watts: 15.4, notes: 'IEEE 802.3af Class 3 Powered Device, 15.4W. Alternatively powered by PW-1225DU (12VDC 2.5A, sold separately). Source: docs.crestron.com IV-CAM-P20 Specifications — Power over Ethernet: IEEE 802.3af Class 3, 15.4W.' },
+    multicast: false,
+    qos: 'DSCP AF41 recommended for NDI|HX2 and RTSP streams.',
+    ports: [
+      { port: '80/443', proto: 'TCP', direction: 'In', desc: 'Web UI / HTTPS management' },
+      { port: '554', proto: 'TCP/UDP', direction: 'In', desc: 'RTSP video stream' },
+      { port: '5960', proto: 'UDP', direction: 'Local', desc: 'NDI|HX2 discovery and streaming' },
+      { port: '52116', proto: 'TCP/UDP', direction: 'Local', desc: 'NDI|HX2 stream transport' },
+      { port: 'variable', proto: 'TCP', direction: 'In', desc: 'VISCA/TCP camera control' },
+    ],
+    dns: ['Internal only — no cloud dependency. Camera Manager software on local Windows PC.'],
+    security: [
+      'Same platform as IV-CAM-P12 but with 20x optical zoom for large to extra-large rooms',
+      'Compatible with Automate VX (IV-SAM-VX2-S) for multi-camera speaker tracking',
+      'Certified for Microsoft Teams Rooms and Zoom Rooms',
+      'FOV 56.45° — narrower than P12 due to longer zoom range; better for large/deep rooms',
+      'Video outputs: 3G-SDI, HDMI, USB (UVC), NDI|HX2, ONVIF, RTSP — all active simultaneously',
+      '100Mbps Ethernet port — not gigabit',
+    ],
+    notes: 'Crestron 1 Beyond PTZ camera, 20x optical zoom, Sony 1/2.8" CMOS sensor, 1080p60. Ideal for large to extra-large rooms. Longer throw than P12 — FOV 56.45°. 256 presets, same pan/tilt range as P12. Source: docs.crestron.com IV-CAM-P20 Specifications (P20Specs.htm).',
+  },
+  {
+    id: 'crestron-iv-cam-i12',
+    name: 'Crestron 1 Beyond IV-CAM-I12',
+    vendor: 'Crestron Electronics (1 Beyond)',
+    category: 'av',
+    tag: 'tag-av',
+    tagLabel: 'AV/Video',
+    vlan: 'AV_MEDIA',
+    vlans: ['AV_MEDIA', 'AV_CTRL'],
+    bandwidth: { typical: 10, burst: 25, unit: 'Mbps' },
+    poe: { standard: 'PoE', watts: 15.4, notes: 'IEEE 802.3af Class 3 Powered Device, 15.4W. Alternatively powered by PW-1225DU (12VDC 2.5A, sold separately). Source: docs.crestron.com IV-CAM-I12 Specifications — Power over Ethernet: IEEE 802.3af Class 3, 15.4W.' },
+    multicast: false,
+    qos: 'DSCP AF41 recommended for RTSP streams. AI processing is onboard — no additional network traffic for tracking.',
+    ports: [
+      { port: '80/443', proto: 'TCP', direction: 'In', desc: 'Web UI / HTTPS management' },
+      { port: '554', proto: 'TCP/UDP', direction: 'In', desc: 'RTSP video stream' },
+      { port: 'variable', proto: 'TCP', direction: 'In', desc: 'VISCA/TCP camera control' },
+      { port: 'variable', proto: 'TCP/UDP', direction: 'Local', desc: 'Intelligent Switching inter-camera communication' },
+    ],
+    dns: ['Internal only — all AI processing is onboard, no cloud required.'],
+    security: [
+      'DUAL-CAMERA design: wide-angle reference camera (104° FOV) + 12x PTZ camera in one unit',
+      'All visual AI is onboard — no external Automate VX required for auto-tracking',
+      'Three modes: Group Framing (5-25ft), Presenter Tracking (15-25ft), Intelligent Switching',
+      'Intelligent Switching: I12 acts as group framing anchor; up to 4 additional cameras auto-switch',
+      'NOTE: No NDI|HX support (unlike P12/P20) — video out via 3G-SDI, HDMI, USB/UVC, ONVIF, RTSP only',
+      'Certified for Microsoft Teams Rooms and Zoom Rooms',
+      '100Mbps Ethernet port — not gigabit',
+      'IR remote (IV-CAMA-REMOTE) supported for manual PTZ control',
+    ],
+    notes: 'Crestron 1 Beyond intelligent AI auto-tracking camera. Dual-lens: wide-angle reference (104° FOV) for AI scene understanding + 12x PTZ for active framing. Onboard AI — no Automate VX needed. Group framing range 5-25ft, presenter tracking 15-25ft. Bandwidth slightly higher than P-series due to dual video processing. Source: docs.crestron.com IV-CAM-I12 Specifications (I12Specs.htm).',
+  },
+
+  // ── CRESTRON (2026 additions) ─────────────────────────────────────────────
+
+  {
+    id: 'crestron-dm-nvx-370',
+    name: 'Crestron DM-NVX-370',
+    vendor: 'Crestron Electronics',
+    category: 'av',
+    tag: 'tag-av',
+    tagLabel: 'AV/Video',
+    vlan: 'AV_MEDIA',
+    vlans: ['AV_MEDIA', 'AV_CTRL'],
+    bandwidth: { typical: 500, burst: 950, unit: 'Mbps' },
+    poe: { standard: 'PoE+', watts: 13.7, notes: 'IEEE 802.3at (PoE+) Powered Device, 13.7W. Requires PoE+ switch port. USB-C 100W laptop charging requires separate PW-2460DU power pack. Source: creationnetworks.net DM-NVX-370 specs.' },
+    multicast: true,
+    qos: 'DSCP AF41 recommended for AV streams; non-blocking 1 Gbps network required',
+    ports: [
+      { port: 1738, protocol: 'UDP', direction: 'both', description: 'NVX stream control' },
+      { port: 5353, protocol: 'UDP', direction: 'both', description: 'mDNS for device discovery' },
+    ],
+    dns: ['Resolves XiO Cloud and Crestron control via hostname'],
+    security: ['HTTPS management interface', '802.1X port authentication supported', 'XiO Cloud managed'],
+    notes: 'Compact 4K60 4:4:4 HDR AV-over-IP encoder/decoder with built-in 2x1 switcher — one HDMI input and one USB-C input. A single USB-C cable from a laptop carries video, USB data, and charging. Adaptive bit rate: 200-950 Mbps fixed, adaptive by resolution, or variable (<150 Mbps-750 Mbps). Less than one frame of latency. Ideal for huddle rooms and lecterns where a laptop USB-C connection replaces HDMI + USB dongles. Requires Cat5e or better. Source: crestron.com DM-NVX-370.',
+  },
+
+  {
+    id: 'crestron-iv-cam-i12d',
+    name: 'Crestron 1 Beyond IV-CAM-I12D',
+    vendor: 'Crestron Electronics (1 Beyond)',
+    category: 'av',
+    tag: 'tag-av',
+    tagLabel: 'AV/Video',
+    vlan: 'AV_MEDIA',
+    vlans: ['AV_MEDIA', 'AV_CTRL'],
+    bandwidth: { typical: 20, burst: 40, unit: 'Mbps' },
+    poe: { standard: 'PoE+', watts: 25.5, notes: 'IEEE 802.3at (PoE+) Powered Device. Single PoE+ cable powers both cameras in dual-lens unit. Requires PoE+ switch port (minimum 25.5W budget per port). Source: creationnetworks.net IV-CAM-I12D-B specs.' },
+    multicast: false,
+    qos: 'DSCP AF41 recommended for dual-stream video output',
+    ports: [
+      { port: 443, protocol: 'TCP', direction: 'out', description: 'XiO Cloud management' },
+      { port: 5353, protocol: 'UDP', direction: 'both', description: 'mDNS device discovery' },
+    ],
+    dns: ['XiO Cloud connectivity', 'Crestron Automate VX integration'],
+    security: ['HTTPS management', 'XiO Cloud managed', '802.1X supported'],
+    notes: 'Dual-lens intelligent speaker-tracking camera (2026 model, announced ISE/InfoComm 2026). Combines a 12x optical zoom PTZ camera with a wide-angle reference camera in one PoE+ unit so remote participants see a speaker close-up AND a full-room wide shot simultaneously. AI speaker tracking onboard; no Automate VX server required. 4K resolution. USB-C output for direct connection to Teams Rooms or Zoom Rooms compute. Significant upgrade from IV-CAM-I12-B (single lens) -- specify I12D for large boardrooms and executive suites. Source: crestron.com InfoComm 2026 preview; creationnetworks.net IV-CAM-I12D-B.',
+  },
+
+  {
+    id: 'crestron-collab-compute-ccc120t',
+    name: 'Crestron Collab Compute CCC-120-T',
+    vendor: 'Crestron Electronics',
+    category: 'vc',
+    tag: 'tag-vc',
+    tagLabel: 'Video Conf',
+    vlan: 'AV_VC',
+    vlans: ['AV_VC', 'AV_CTRL'],
+    bandwidth: { typical: 6, burst: 20, unit: 'Mbps' },
+    poe: { standard: 'AC', watts: null, notes: 'AC powered (IEC C13 inlet). Compact Windows compute module -- not PoE. Powers USB peripherals via USB ports. Source: crestron.com CCC-120-T.' },
+    multicast: false,
+    qos: 'DSCP EF (46) for Teams/Zoom video; AF41 for screen share',
+    ports: [
+      { port: 443, protocol: 'TCP', direction: 'out', description: 'Microsoft Teams Rooms / Zoom signaling and cloud services' },
+      { port: 3478, protocol: 'UDP', direction: 'both', description: 'STUN/TURN for Teams media' },
+      { port: 50000, protocol: 'UDP', direction: 'both', description: 'Teams media RTP (range 50000-50059)' },
+    ],
+    dns: ['teams.microsoft.com', 'zoom.us', 'crestron.com (XiO Cloud)', 'login.microsoftonline.com'],
+    security: ['Windows 11 IoT Enterprise LTSC', 'BitLocker encryption supported', 'TPM 2.0', 'XiO Cloud managed', 'Azure AD/Intune enrollment'],
+    notes: 'Compact Windows compute module for Microsoft Teams Rooms -- replaces legacy UC-ENGINE platform. Intel Core Ultra 7 (higher tier than CCC-110-T) for large and executive rooms, AI-enhanced video processing, complex content sharing. Microsoft Teams Rooms certified. Pairs with Crestron Flex UC peripherals (touch controller, camera, audio). Also available: CCC-120-Z (Zoom Rooms), CCC-110-T (Core Ultra 5/MTR), CCC-110-Z (Zoom). Announced ISE 2026. Source: crestron.com ISE 2026 recap; creationnetworks.net CCC-120-T.',
+  },
+
+  {
+    id: 'crestron-tsw-1080',
+    name: 'Crestron TSW-1080 Touch Screen',
+    vendor: 'Crestron Electronics',
+    category: 'ctrl',
+    tag: 'tag-ctrl',
+    tagLabel: 'Control',
+    vlan: 'AV_CTRL',
+    vlans: ['AV_CTRL'],
+    bandwidth: { typical: 0.5, burst: 2, unit: 'Mbps' },
+    poe: { standard: 'PoE+', watts: 20, notes: 'IEEE 802.3at (PoE+) Powered Device. Estimated ~20W at full brightness (based on TSW-1070 series; final spec expected July 2026). Single Ethernet cable for power + data. Source: creationnetworks.net TSW-1080 pre-order listing.' },
+    multicast: false,
+    qos: 'DSCP CS2 for control traffic; low-latency VLAN recommended',
+    ports: [
+      { port: 41794, protocol: 'TCP', direction: 'both', description: 'Crestron control system messaging' },
+      { port: 443, protocol: 'TCP', direction: 'out', description: 'XiO Cloud and Crestron Fusion room scheduling' },
+    ],
+    dns: ['XiO Cloud', 'Crestron Fusion'],
+    security: ['HTTPS management', 'XiO Cloud managed', '802.1X network authentication'],
+    notes: '10.1-inch 1920x1200 WUXGA wall-mount touch screen (80 Series, announced ISE 2026). Replaces TSW-1070 series. Radar-based proximity detection, 400 nits brightness, 5-point projected capacitive multitouch. Wi-Fi + Bluetooth built in; deploys over single Ethernet cable (PoE+). Works with Crestron Fusion, .AV Framework, XiO Cloud, and Collab Compute CCC-120-Z/CCC-110-Z. Shipping July 2026. Also: TSW-1080-UC-B (UC variant), TS-1080 (tabletop), TSW-1080R (Crestron Home OS). Source: creationnetworks.net TSW-1080-W; crestron.com ISE 2026 recap.',
+  },
+
+  {
+    id: 'crestron-dm-nax-ap100',
+    name: 'Crestron DM-NAX-AP-100 Audio Processor',
+    vendor: 'Crestron Electronics',
+    category: 'audio',
+    tag: 'tag-audio',
+    tagLabel: 'Audio',
+    vlan: 'AV_AUDIO',
+    vlans: ['AV_AUDIO', 'AV_CTRL'],
+    bandwidth: { typical: 0.5, burst: 2, unit: 'Mbps' },
+    poe: { standard: 'PoE', watts: 12.95, notes: 'IEEE 802.3af Type 1 Class 0 Powered Device, 12.95W via LAN 1 port. Optional 24 VDC power adapter. LAN 2 is a separate AES67 audio-over-IP network port (not PoE). Source: creationnetworks.net DM-NAX-AP-100 specs.' },
+    multicast: true,
+    qos: 'DSCP EF (46) for AES67 audio streams; requires multicast-enabled network on AES67 port (LAN 2)',
+    ports: [
+      { port: 5004, protocol: 'UDP', direction: 'both', description: 'AES67 audio RTP streams' },
+      { port: 319, protocol: 'UDP', direction: 'both', description: 'PTP/IEEE 1588 clock sync (AES67)' },
+      { port: 320, protocol: 'UDP', direction: 'both', description: 'PTP/IEEE 1588 general messages' },
+      { port: 443, protocol: 'TCP', direction: 'out', description: 'XiO Cloud management' },
+    ],
+    dns: ['XiO Cloud management', 'Crestron control system hostname'],
+    security: ['HTTPS management', 'XiO Cloud managed'],
+    notes: 'Compact PoE-powered USB audio processor (DM NAX Intelligent Audio platform, announced ISE 2026). Bridges USB audio to DM NAX/AES67 network -- appears to host as "Crestron Echo-Canceling Speakerphone" with no driver install required. Built-in echo cancellation, AGC, and noise suppression. Dual LAN: LAN 1 = control + PoE power; LAN 2 = dedicated AES67 audio-over-IP network. Pairs with DM-NAX-POD-MIC-SPK tabletop pods. 100/1000BASE-T. Source: crestron.com DM-NAX-AP-100; creationnetworks.net.',
+  },
+
+  {
+    id: 'crestron-dm-nax-pod-mic-spk',
+    name: 'Crestron DM-NAX-POD-MIC-SPK',
+    vendor: 'Crestron Electronics',
+    category: 'audio',
+    tag: 'tag-audio',
+    tagLabel: 'Audio',
+    vlan: 'AV_AUDIO',
+    vlans: ['AV_AUDIO'],
+    bandwidth: { typical: 0.3, burst: 1, unit: 'Mbps' },
+    poe: { standard: 'PoE', watts: 15.4, notes: 'PoE powered (802.3af estimated). Single Ethernet cable delivers power + AES67 audio. Exact wattage: verify with Crestron datasheet (specs pending full publication). Crestron recommends CEN-SWPOE-12 or CEN-SWPOE-52 for DM NAX deployments. Source: creationnetworks.net DM-NAX-POD-MIC-SPK.' },
+    multicast: true,
+    qos: 'DSCP EF (46) for AES67 audio; multicast required on AV_AUDIO VLAN',
+    ports: [
+      { port: 5004, protocol: 'UDP', direction: 'both', description: 'AES67 RTP audio streams' },
+      { port: 319, protocol: 'UDP', direction: 'both', description: 'PTP clock sync' },
+    ],
+    dns: [],
+    security: ['Managed via DM-NAX-AP-100 or XiO Cloud'],
+    notes: 'Tabletop PoE microphone + speaker pod for the DM NAX Intelligent Audio platform. Combines directional mic array and speaker in one unit -- a single Ethernet cable replaces separate mic, speaker, and analog wiring runs. Designed for conference tables; supports conferencing, voice lift, and paging. Works in conjunction with DM-NAX-AP-100 audio processor. Announced ISE/InfoComm 2026. Source: crestron.com DM-NAX-POD-MIC-SPK; creationnetworks.net.',
+  },
 
   // ── EXTRON (expanded) ─────────────────────────────────────────────────────
   {
@@ -2604,11 +3184,35 @@ const DEVICES = [
     security: ['High-bandwidth device — dedicated 1G or 10G port recommended', 'Change default credentials', 'Quantum Ultra supports IP video inputs — RTSP streams require AV_MEDIA VLAN routing'],
     notes: 'Videowall processor for large display arrays. Supports HDMI, DTP, XTP, and IP video inputs (RTSP). Managed via Extron Quantum web GUI or control system SIS. Typically used in command/control rooms and large lobby installations.',
   },
+  // Extron TLP Pro 35 Series — compact 3.5″ PoE touch controller (2026)
+  {
+    id: 'extron-tlp-pro-35',
+    name: 'Extron TLP Pro 35 Series',
+    vendor: 'Extron Electronics',
+    category: 'ctrl',
+    tag: 'tag-ctrl',
+    tagLabel: 'Control',
+    vlan: 'AV_CTRL',
+    vlans: ['AV_CTRL'],
+    bandwidth: { typical: 1, burst: 3, unit: 'Mbps' },
+    poe: { standard: 'PoE', watts: 7, notes: 'IEEE 802.3af (PoE) powered; ~7W. Single Ethernet for power and IP control.' },
+    multicast: false,
+    qos: 'DSCP CS2 for control traffic',
+    ports: [
+      { proto: 'TCP', port: 80, dir: 'in/out', description: 'HTTP management and control API' },
+      { proto: 'TCP', port: 443, dir: 'in/out', description: 'HTTPS secure management' },
+      { proto: 'TCP', port: 10000, dir: 'in/out', description: 'Extron control protocol' },
+    ],
+    dns: [],
+    security: ['HTTPS management', '802.1X port authentication', 'Extron GlobalViewer Enterprise compatible'],
+    notes: 'Compact 3.5″ PoE touchscreen controller from Extron TLP Pro 35 Series (announced 2026). Designed for small rooms, single-source spaces, and auxiliary control points. Single PoE Ethernet connection. Part of Extron TouchLink Pro product line; compatible with Extron control processors.',
+  },
+
 
   // ── QSC (expanded) ────────────────────────────────────────────────────────
   {
     id: 'qsc-core-110f',
-    name: 'QSC Q-SYS Core 110f',
+    name: 'QSC Q-SYS Core 110f (Legacy)',
     vendor: 'QSC Audio Products',
     category: 'audio',
     tag: 'tag-audio',
@@ -2633,7 +3237,7 @@ const DEVICES = [
   },
   {
     id: 'qsc-core-510i',
-    name: 'QSC Q-SYS Core 510i',
+    name: 'QSC Q-SYS Core 510i (Discontinued)',
     vendor: 'QSC Audio Products',
     category: 'audio',
     tag: 'tag-audio',
@@ -2701,7 +3305,7 @@ const DEVICES = [
   },
   {
     id: 'qsc-tsc-controller',
-    name: 'QSC TSC Series Touchscreen Controller',
+    name: 'QSC TSC Gen 3 Touchscreen Controller',
     vendor: 'QSC Audio Products',
     category: 'ctrl',
     tag: 'tag-ctrl',
@@ -2853,7 +3457,7 @@ const DEVICES = [
   },
   {
     id: 'qsc-nl-speaker',
-    name: 'QSC NL Series Network Loudspeaker',
+    name: 'QSC NL Series Network Loudspeakers (NL-C4 / NL-P4 / NL-SB42)',
     vendor: 'QSC Audio Products',
     category: 'audio',
     tag: 'tag-audio',
@@ -2927,6 +3531,31 @@ const DEVICES = [
     ],
     notes: 'Next-gen Core replacing the 110f. Four independent 2.5Gbps NIC ports — ideal for VLAN segregation without a managed switch. LAN A+B for redundant Q-LAN audio, LAN C+D for aux/control/corporate. Dante 8x8 included out of the box (no separate license for base). 24 onboard analog I/O channels, 24x AEC, USB-C AV bridging, GPIO, and RS-232. Control scripting included — no feature license required.',
   },
+
+  // QSC Q-SYS Server Core X10 — large-venue network DSP processor
+  {
+    id: 'qsc-server-core-x10',
+    name: 'QSC Q-SYS Server Core X10',
+    vendor: 'QSC Audio Products',
+    category: 'audio',
+    tag: 'tag-audio',
+    tagLabel: 'Audio DSP',
+    vlan: 'AV_AUDIO',
+    vlans: ['AV_AUDIO', 'AV_CTRL'],
+    bandwidth: { typical: 200, burst: 500, unit: 'Mbps' },
+    poe: { standard: 'AC', watts: null, notes: 'AC powered; 1U rack-mount, redundant PSU optional. No PoE.' },
+    multicast: true,
+    qos: 'DSCP EF for Q-LAN/AES67; dedicated gigabit switch recommended',
+    ports: [
+      { proto: 'UDP', port: 2467, dir: 'in/out', description: 'Q-SYS control plane' },
+      { proto: 'UDP', port: 5004, dir: 'in/out', description: 'AES67/Q-LAN audio streams' },
+      { proto: 'TCP', port: 443, dir: 'out', description: 'Q-SYS cloud services / licensing' },
+    ],
+    dns: ['qsyscloud.com'],
+    security: ['802.1X EAP-TLS supported', 'Management HTTPS only', 'Dedicated OOB management port'],
+    notes: '256×256 Q-LAN/AES67 network audio channels; 64 built-in AEC processors; four 2.5 Gbps media ports. Scales to enterprise AV installs. Requires dedicated AV_AUDIO VLAN with IGMP snooping and multicast routing.',
+  },
+
 
   // ── Shure MXN5 PoE Ceiling Speaker ────────────────────────────────────────
   {
@@ -3019,6 +3648,126 @@ const DEVICES = [
     ],
     notes: 'PoE++ powered 4-channel Dante amplifier (20W/ch). Mounts above ceiling tiles — receives both power and Dante audio over a single Cat6 cable. Integrated DSP with 4x4 mix matrix, gain, EQ, dynamics, and delay per channel. Pairs with passive SoundField XD speakers. Fanless plenum-rated enclosure. Controlled via Extron IPCP Pro on the same Dante VLAN.',
   },
+  // QSC Q-SYS Core Nano — compact half-rack Q-SYS processor for small spaces
+  {
+    id: 'qsc-core-nano',
+    name: 'QSC Q-SYS Core Nano',
+    vendor: 'QSC Audio Products',
+    category: 'audio',
+    tag: 'tag-audio',
+    tagLabel: 'Audio DSP',
+    vlan: 'AV_AUDIO',
+    vlans: ['AV_AUDIO', 'AV_CTRL'],
+    bandwidth: { typical: 5, burst: 20, unit: 'Mbps' },
+    poe: { standard: 'AC', watts: 40, notes: 'AC powered; 40W typical. 1/2-rack 1RU form factor. No PoE. No onboard analog I/O.' },
+    multicast: true,
+    qos: 'DSCP EF for Q-LAN/AES67; dedicated gigabit switch recommended',
+    ports: [
+      { proto: 'UDP', port: 2467, dir: 'in/out', description: 'Q-SYS control plane' },
+      { proto: 'UDP', port: 5004, dir: 'in/out', description: 'Q-LAN/AES67 audio streams' },
+      { proto: 'TCP', port: 443, dir: 'out', description: 'Q-SYS cloud / licensing' },
+    ],
+    dns: ['qsyscloud.com'],
+    security: ['802.1X EAP-TLS supported', 'Management HTTPS only'],
+    notes: '64×64 Q-LAN/AES67 network audio channels; 8×8 Dante (licensable to 32×32); 8×8 USB audio. Supports up to 32 peripherals. Network-I/O only — no onboard analog connections. Ideal for small conference rooms and corporate spaces using network endpoints (NL speakers, TSC controllers, wall plates). Source: qsys.com/products-solutions/q-sys/processing/',
+  },
+
+  // QSC Q-SYS Core 8 Flex — half-rack Q-SYS processor with onboard analog I/O
+  {
+    id: 'qsc-core-8-flex',
+    name: 'QSC Q-SYS Core 8 Flex',
+    vendor: 'QSC Audio Products',
+    category: 'audio',
+    tag: 'tag-audio',
+    tagLabel: 'Audio DSP',
+    vlan: 'AV_AUDIO',
+    vlans: ['AV_AUDIO', 'AV_CTRL'],
+    bandwidth: { typical: 5, burst: 20, unit: 'Mbps' },
+    poe: { standard: 'AC', watts: 40, notes: 'AC powered; 40W typical. 1/2-rack 1RU form factor. No PoE.' },
+    multicast: true,
+    qos: 'DSCP EF for Q-LAN/AES67; IGMP snooping required',
+    ports: [
+      { proto: 'UDP', port: 2467, dir: 'in/out', description: 'Q-SYS control plane' },
+      { proto: 'UDP', port: 5004, dir: 'in/out', description: 'Q-LAN/AES67 audio streams' },
+      { proto: 'TCP', port: 443, dir: 'out', description: 'Q-SYS cloud / licensing' },
+    ],
+    dns: ['qsyscloud.com'],
+    security: ['802.1X EAP-TLS supported', 'Management HTTPS only'],
+    notes: '64×64 Q-LAN/AES67; 8×8 Dante (licensable to 32×32); 8 onboard Flex analog I/O channels (mic/line in or line out); 8×8 GPIO; 8×8 USB audio; 2× RS-232. Supports 32 peripherals. Ideal for small-to-medium rooms needing local analog I/O alongside network audio. Source: qsys.com/products-solutions/q-sys/processing/',
+  },
+
+  // QSC Q-SYS Core 610 — 1RU COTS network I/O processor for medium/large installs
+  {
+    id: 'qsc-core-610',
+    name: 'QSC Q-SYS Core 610',
+    vendor: 'QSC Audio Products',
+    category: 'audio',
+    tag: 'tag-audio',
+    tagLabel: 'Audio DSP',
+    vlan: 'AV_AUDIO',
+    vlans: ['AV_AUDIO', 'AV_CTRL'],
+    bandwidth: { typical: 50, burst: 200, unit: 'Mbps' },
+    poe: { standard: 'AC', watts: 450, notes: 'AC powered; 450W PSU. 1RU full-width rack-mount. No PoE. Four 1 Gbps Ethernet ports (2 multimedia + 2 auxiliary).' },
+    multicast: true,
+    qos: 'DSCP EF for Q-LAN/AES67; dedicated gigabit switch required; IGMP snooping required',
+    ports: [
+      { proto: 'UDP', port: 2467, dir: 'in/out', description: 'Q-SYS control plane (multimedia ports)' },
+      { proto: 'UDP', port: 5004, dir: 'in/out', description: 'Q-LAN/AES67 audio streams' },
+      { proto: 'TCP', port: 443, dir: 'out', description: 'Q-SYS cloud services / licensing' },
+    ],
+    dns: ['qsyscloud.com'],
+    security: ['802.1X EAP-TLS supported', 'Management HTTPS only', 'Dedicated OOB management port'],
+    notes: '256×256 Q-LAN/AES67 network audio channels; 8×8 Dante (licensable to 256×256); no onboard analog I/O. Four 1 Gbps ports: 2 multimedia (Q-LAN) + 2 auxiliary (VoIP, SNMP, LDAP). 256+ peripherals; 64 VoIP softphones. Network-I/O only COTS processor for medium-to-large deployments. Source: qsys.com/products-solutions/q-sys/processing/',
+  },
+
+  // QSC Q-SYS Server Core X20r — enterprise Q-SYS processor with redundant PSU
+  {
+    id: 'qsc-server-core-x20r',
+    name: 'QSC Q-SYS Server Core X20r',
+    vendor: 'QSC Audio Products',
+    category: 'audio',
+    tag: 'tag-audio',
+    tagLabel: 'Audio DSP',
+    vlan: 'AV_AUDIO',
+    vlans: ['AV_AUDIO', 'AV_CTRL'],
+    bandwidth: { typical: 300, burst: 700, unit: 'Mbps' },
+    poe: { standard: 'AC', watts: null, notes: 'AC powered; dual redundant hot-swap 600W PSUs. 1RU rack-mount. Four 1 Gbps Ethernet ports (2 multimedia Q-LAN + 2 auxiliary). Dedicated iDRAC management port.' },
+    multicast: true,
+    qos: 'DSCP EF for Q-LAN/AES67; dedicated AV VLAN with IGMP snooping and multicast routing required',
+    ports: [
+      { proto: 'UDP', port: 2467, dir: 'in/out', description: 'Q-SYS control plane' },
+      { proto: 'UDP', port: 5004, dir: 'in/out', description: 'Q-LAN/AES67 audio streams' },
+      { proto: 'TCP', port: 443, dir: 'out', description: 'Q-SYS cloud services / licensing' },
+    ],
+    dns: ['qsyscloud.com'],
+    security: ['802.1X EAP-TLS supported', 'Management HTTPS only', 'iDRAC OOB management'],
+    notes: '384×384 Q-LAN/AES67 network audio; 128 built-in AEC processors; 8×8 Dante (licensable to 256×256). 256+ peripherals; 64 VoIP softphones. Dual redundant hot-swap PSUs for mission-critical installations. Successor to Server Core X10 for high-channel-count enterprise AV. Source: qsys.com/products-solutions/q-sys/processing/',
+  },
+
+  // QSC Q-SYS Server Core X50r — flagship Q-SYS processor (10GbE, 4096×4096)
+  {
+    id: 'qsc-server-core-x50r',
+    name: 'QSC Q-SYS Server Core X50r',
+    vendor: 'QSC Audio Products',
+    category: 'audio',
+    tag: 'tag-audio',
+    tagLabel: 'Audio DSP',
+    vlan: 'AV_AUDIO',
+    vlans: ['AV_AUDIO', 'AV_CTRL'],
+    bandwidth: { typical: 1000, burst: 5000, unit: 'Mbps' },
+    poe: { standard: 'AC', watts: null, notes: 'AC powered; dual redundant hot-swap 1100W PSUs. 2RU rack-mount. Four SFP+ ports: 2× 10 Gbps multi-mode fiber + 2× 1 Gbps copper RJ-45. Dedicated iDRAC management port.' },
+    multicast: true,
+    qos: 'DSCP EF for Q-LAN/AES67; 10 Gbps network required for full 4096×4096 channel capacity',
+    ports: [
+      { proto: 'UDP', port: 2467, dir: 'in/out', description: 'Q-SYS control plane' },
+      { proto: 'UDP', port: 5004, dir: 'in/out', description: 'Q-LAN/AES67/AES3 audio streams' },
+      { proto: 'TCP', port: 443, dir: 'out', description: 'Q-SYS cloud services / licensing' },
+    ],
+    dns: ['qsyscloud.com'],
+    security: ['802.1X EAP-TLS supported', 'Management HTTPS only', 'iDRAC OOB management'],
+    notes: 'Flagship Q-SYS processor: 4096×4096 Q-LAN channels (requires 10 Gbps); 512×512 at 1 Gbps. 8×8 Dante (licensable to 512×512). Up to 256 ch record/playback expandable to 2048 ch. Dual redundant hot-swap 1100W PSUs. SFP+ fiber uplinks for data center/stadium-scale deployments. Source: qsys.com/products-solutions/q-sys/processing/',
+  },
+
 
   // ── QSC Attero Tech Wall Plates ───────────────────────────────────────────
   {
@@ -3077,6 +3826,195 @@ const DEVICES = [
     ],
     notes: 'Consumer-style Dante wall plate with 2x XLR balanced inputs, 2x RCA line inputs, 3.5mm TRS I/O — plus Bluetooth on the BT variant. PoE powered. Fits dual-gang US box. Ideal for rooms needing laptop, phone, or general AV input on the Dante network. BT model allows wireless audio streaming from smartphones/tablets. Managed in Q-SYS Designer or unIFY.',
   },
+
+  // ── QSC NL Series (Individual Models) ──────────────────────────────────────
+
+  // QSC NL-C4 — ceiling-mount PoE network loudspeaker
+  {
+    id: 'qsc-nl-c4',
+    name: 'QSC NL-C4 Network Loudspeaker (Ceiling)',
+    vendor: 'QSC Audio Products',
+    category: 'audio',
+    tag: 'tag-audio',
+    tagLabel: 'Audio DSP',
+    vlan: 'AV_AUDIO',
+    vlans: ['AV_AUDIO'],
+    bandwidth: { typical: 2, burst: 5, unit: 'Mbps' },
+    poe: { standard: 'PoE+', watts: 24, notes: 'IEEE 802.3af (PoE, Class 3) for 12W audio output, or 802.3at (PoE+, Class 4) for 24W audio output. Single RJ-45 Q-LAN port.' },
+    multicast: true,
+    qos: 'DSCP EF for Q-LAN audio streams; IGMP snooping required',
+    ports: [
+      { proto: 'UDP', port: 2467, dir: 'in/out', description: 'Q-SYS Q-LAN audio and control' },
+      { proto: 'UDP', port: 5004, dir: 'in/out', description: 'AES67 audio streams' },
+    ],
+    dns: [],
+    security: ['802.1X port authentication', 'Q-SYS encrypted control'],
+    notes: '4″ full-range ceiling loudspeaker powered entirely over network (Q-LAN). 100 Hz–20 kHz; 120° coverage; 94 dB SPL on PoE, 97 dB on PoE+. No separate power wiring needed. Requires AV_AUDIO VLAN with IGMP snooping and multicast routing.',
+  },
+
+  // QSC NL-P4 — pendant-mount PoE network loudspeaker
+  {
+    id: 'qsc-nl-p4',
+    name: 'QSC NL-P4 Network Loudspeaker (Pendant)',
+    vendor: 'QSC Audio Products',
+    category: 'audio',
+    tag: 'tag-audio',
+    tagLabel: 'Audio DSP',
+    vlan: 'AV_AUDIO',
+    vlans: ['AV_AUDIO'],
+    bandwidth: { typical: 2, burst: 5, unit: 'Mbps' },
+    poe: { standard: 'PoE+', watts: 24, notes: 'IEEE 802.3af (PoE, Class 3) for 12W or 802.3at (PoE+, Class 4) for 24W audio output. Single RJ-45 Q-LAN port.' },
+    multicast: true,
+    qos: 'DSCP EF for Q-LAN audio streams; IGMP snooping required',
+    ports: [
+      { proto: 'UDP', port: 2467, dir: 'in/out', description: 'Q-SYS Q-LAN audio and control' },
+      { proto: 'UDP', port: 5004, dir: 'in/out', description: 'AES67 audio streams' },
+    ],
+    dns: [],
+    security: ['802.1X port authentication'],
+    notes: '4″ full-range pendant loudspeaker on Q-LAN. 90 Hz–20 kHz; 100° coverage; DI 7.2 dB. Ideal for atriums, lobbies, and open spaces where pendant mounting is preferred. PoE/PoE+ via single Ethernet cable.',
+  },
+
+  // QSC NL-SB42 — soundbar PoE network loudspeaker
+  {
+    id: 'qsc-nl-sb42',
+    name: 'QSC NL-SB42 Network Soundbar',
+    vendor: 'QSC Audio Products',
+    category: 'audio',
+    tag: 'tag-audio',
+    tagLabel: 'Audio DSP',
+    vlan: 'AV_AUDIO',
+    vlans: ['AV_AUDIO'],
+    bandwidth: { typical: 2, burst: 5, unit: 'Mbps' },
+    poe: { standard: 'PoE+', watts: 24, notes: 'IEEE 802.3af (PoE, Class 3) for 12W or 802.3at (PoE+, Class 4) for 24W. Single RJ-45 Q-LAN port.' },
+    multicast: true,
+    qos: 'DSCP EF for Q-LAN audio; IGMP snooping required',
+    ports: [
+      { proto: 'UDP', port: 2467, dir: 'in/out', description: 'Q-SYS Q-LAN audio and control' },
+    ],
+    dns: [],
+    security: ['802.1X port authentication'],
+    notes: 'Compact soundbar (3.5″ woofer + 0.75″ tweeter) on Q-LAN network. 150° horizontal × 160° vertical coverage. Designed for conference rooms, classrooms, and digital signage displays. PoE/PoE+ via single Ethernet.',
+  },
+
+  // QSC QIO-WP-BT — Bluetooth audio network wall plate (Q-SYS peripheral)
+  {
+    id: 'qsc-qio-wp-bt',
+    name: 'QSC QIO-WP-BT Bluetooth Wall Plate',
+    vendor: 'QSC Audio Products',
+    category: 'audio',
+    tag: 'tag-audio',
+    tagLabel: 'Audio DSP',
+    vlan: 'AV_AUDIO',
+    vlans: ['AV_AUDIO', 'AV_CTRL'],
+    bandwidth: { typical: 1, burst: 3, unit: 'Mbps' },
+    poe: { standard: 'PoE', watts: 10, notes: 'IEEE 802.3af (PoE) powered; ~10W. Single RJ-45 Q-LAN port. No AC adapter.' },
+    multicast: false,
+    qos: 'DSCP CS2 for control; DSCP EF for audio',
+    ports: [
+      { proto: 'UDP', port: 2467, dir: 'in/out', description: 'Q-SYS Q-LAN control and audio' },
+    ],
+    dns: [],
+    security: ['802.1X port authentication', 'Q-SYS encrypted control'],
+    notes: 'Single-gang wall plate with Bluetooth audio streaming and Q-LAN network connectivity. Allows BYOD Bluetooth audio input (phone/laptop) into Q-SYS audio distribution. PoE via single Ethernet. Part of QIO Series network I/O expanders.',
+  },
+
+  // ── VISIONARY SOLUTIONS ────────────────────────────────────────────────────
+
+  // Visionary Solutions PacketAV E5200 — 4K60 AV-over-IP encoder
+  {
+    id: 'visionary-e5200',
+    name: 'Visionary Solutions PacketAV E5200 Encoder',
+    vendor: 'Visionary Solutions',
+    category: 'av',
+    tag: 'tag-av',
+    tagLabel: 'AV/Video',
+    vlan: 'AV_MEDIA',
+    vlans: ['AV_MEDIA', 'AV_CTRL'],
+    bandwidth: { typical: 200, burst: 800, unit: 'Mbps' },
+    poe: { standard: 'PoE+', watts: 12, notes: 'IEEE 802.3at (PoE+) powered; 12W typical. LAN 2 port passes PoE (802.3af) to a downstream device. Two RJ-45 ports (1GbE each).' },
+    multicast: true,
+    qos: 'DSCP AF41 recommended; 1GbE non-blocking switch required; IGMP snooping required',
+    ports: [
+      { proto: 'UDP', port: 5004, dir: 'out', description: 'Multicast video stream (Q-LAN/RTP)' },
+      { proto: 'TCP', port: 443, dir: 'out', description: 'HTTPS management API' },
+      { proto: 'TCP', port: 22, dir: 'in', description: 'SSH management' },
+    ],
+    dns: [],
+    security: ['802.1X port authentication', 'HTTPS API', 'SSH management', 'HDCP 2.2/2.3', 'AES-256 stream encryption', 'VLAN tagging'],
+    notes: '4K60 4:4:4 HDR AV-over-IP matrix encoder. Inputs: 2× HDMI + 1× USB-C (DP Alt Mode). Loop-through HDMI output. Adjustable bandwidth 50–800 Mbps. Embedded AES67/Dante audio (4ch with module). RS-232, IR, GPIO, CEC-over-IP control ports. Fanless. ~2ms latency at 4K60.',
+  },
+
+  // Visionary Solutions DuetD5-WP — 4K60 wall plate decoder
+  {
+    id: 'visionary-duetd5-wp',
+    name: 'Visionary Solutions DuetD5-WP Wall Plate Decoder',
+    vendor: 'Visionary Solutions',
+    category: 'av',
+    tag: 'tag-av',
+    tagLabel: 'AV/Video',
+    vlan: 'AV_MEDIA',
+    vlans: ['AV_MEDIA', 'AV_CTRL'],
+    bandwidth: { typical: 200, burst: 800, unit: 'Mbps' },
+    poe: { standard: 'PoE', watts: 13, notes: 'Standard PoE (802.3af) powered. 45-degree angled RJ-45 connector for in-wall back box mounting.' },
+    multicast: true,
+    qos: 'DSCP AF41 recommended; IGMP snooping required on AV_MEDIA VLAN',
+    ports: [
+      { proto: 'UDP', port: 5004, dir: 'in', description: 'Multicast video stream receive' },
+      { proto: 'TCP', port: 443, dir: 'out', description: 'HTTPS management' },
+    ],
+    dns: [],
+    security: ['802.1X port authentication', 'HTTPS management', 'VLAN tagging', 'HDCP 2.2/2.3'],
+    notes: 'Two-gang wall plate 4K60 4:4:4 AV-over-IP decoder. HDMI output; two USB-C ports for USB-over-IP device extension. AES67/Dante audio de-embedding. Designed for in-wall installation with angled Ethernet connector. Part of PacketAV 5 Series ecosystem.',
+  },
+
+  // Visionary Solutions DuetE5-WP-C — 4K60 USB-C wall plate encoder
+  {
+    id: 'visionary-duete5-wp-c',
+    name: 'Visionary Solutions DuetE5-WP-C Wall Plate Encoder',
+    vendor: 'Visionary Solutions',
+    category: 'av',
+    tag: 'tag-av',
+    tagLabel: 'AV/Video',
+    vlan: 'AV_MEDIA',
+    vlans: ['AV_MEDIA', 'AV_CTRL'],
+    bandwidth: { typical: 200, burst: 800, unit: 'Mbps' },
+    poe: { standard: 'PoE', watts: 13, notes: 'Standard PoE (802.3af) powered. Angled RJ-45 for in-wall back box mounting.' },
+    multicast: true,
+    qos: 'DSCP AF41 recommended; IGMP snooping required; 1GbE non-blocking switch',
+    ports: [
+      { proto: 'UDP', port: 5004, dir: 'out', description: 'Multicast video stream output' },
+      { proto: 'TCP', port: 443, dir: 'out', description: 'HTTPS management' },
+    ],
+    dns: [],
+    security: ['802.1X port authentication', 'HTTPS management', 'VLAN tagging'],
+    notes: 'Two-gang wall plate 4K60 4:4:4 encoder with USB-C (DisplayPort Alt Mode) and HDMI inputs. USB-over-IP for webcam/peripheral extension. AES67/Dante audio embedding. Available with Bluetooth (DuetE5-WP-C-BT) for wireless audio input from mobile devices. ISE 2026 launch.',
+  },
+
+  // Visionary Solutions XB5 — 4K60 USB-C AV-over-IP conferencing bridge
+  {
+    id: 'visionary-xb5',
+    name: 'Visionary Solutions XB5 USB-C Conferencing Bridge',
+    vendor: 'Visionary Solutions',
+    category: 'vc',
+    tag: 'tag-vc',
+    tagLabel: 'Video Conf',
+    vlan: 'AV_VC',
+    vlans: ['AV_VC', 'AV_MEDIA'],
+    bandwidth: { typical: 100, burst: 400, unit: 'Mbps' },
+    poe: { standard: 'PoE+', watts: 25, notes: 'IEEE 802.3at (PoE+) powered. Single USB-C to laptop delivers video + USB + up to 100W charging simultaneously.' },
+    multicast: true,
+    qos: 'DSCP CS4 for conferencing video; DSCP EF for AES67 audio; IGMP snooping required',
+    ports: [
+      { proto: 'UDP', port: 5004, dir: 'in/out', description: 'AV-over-IP / AES67 audio streams' },
+      { proto: 'TCP', port: 443, dir: 'out', description: 'Management and provisioning' },
+    ],
+    dns: [],
+    security: ['802.1X port authentication', 'HTTPS management', 'VLAN tagging'],
+    notes: 'BYOD conferencing bridge with single USB-C connection to a laptop. Delivers 4K60 4:4:4 bidirectional video, USB device extension (webcam/mic), and up to 100W USB PD charging — all over one cable. AES67/Dante audio with AEC embedding/de-embedding. UVC/UAC compatible. PoE+ from network switch. ISE 2026 product.',
+  },
+
+
 ];
 
 const VLANS = [
@@ -3085,6 +4023,7 @@ const VLANS = [
   { id: 30, name: 'AV_AUDIO', color: '#f85149', colorBg: 'rgba(248,81,73,0.15)', colorBorder: 'rgba(248,81,73,0.35)', purpose: 'Dante / AES67 audio — Biamp, Shure MXA, Sennheiser TCC2, QSC Q-SYS', categories: ['audio'], security: 'Strictly isolated. No internet. No cross-VLAN except management. PTP required.' },
   { id: 40, name: 'AV_CTRL', color: '#3fb950', colorBg: 'rgba(63,185,80,0.15)', colorBorder: 'rgba(63,185,80,0.35)', purpose: 'AV control systems — Crestron/AMX processors, touchpanels', categories: ['ctrl'], security: 'Must reach other AV VLANs. Outbound 443 for cloud management.' },
   { id: 50, name: 'AV_DISPLAY', color: '#d29922', colorBg: 'rgba(210,153,34,0.15)', colorBorder: 'rgba(210,153,34,0.35)', purpose: 'Network displays — Samsung, LG, Sony BRAVIA commercial displays & signage', categories: ['display'], security: 'Minimal internet for updates/CMS. No inbound from corporate VLAN.' },
+
 ];
 
 // ── App State ──────────────────────────────────────────────────────────────
